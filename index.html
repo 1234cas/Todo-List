@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Daily Todo</title>
+  <style>
+    :root {
+      --bg: #fff7f3;
+      --card: rgba(255, 255, 255, 0.84);
+      --text: #2f2a2a;
+      --muted: #8a7777;
+      --primary: #ff7a9a;
+      --primary-dark: #e75f82;
+      --blue: #6aa6ff;
+      --green: #62c58f;
+      --yellow: #ffc857;
+      --danger: #ff6b6b;
+      --shadow: 0 18px 50px rgba(255, 122, 154, 0.18);
+      --border: rgba(255, 122, 154, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 122, 154, 0.22), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(106, 166, 255, 0.18), transparent 25%),
+        linear-gradient(135deg, #fff7f3 0%, #fff1f7 46%, #f3f8ff 100%);
+      padding: 22px;
+    }
+
+    [hidden] { display: none !important; }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.18s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    .auth-gate {
+      min-height: calc(100vh - 44px);
+      display: grid;
+      place-items: center;
+    }
+
+    .login-card {
+      width: min(430px, 100%);
+      padding: 30px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: -0.8px;
+      line-height: 1.05;
+    }
+
+    .login-card p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .login-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      color: var(--text);
+      font-size: 15px;
+      padding: 0 14px;
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: rgba(255, 122, 154, 0.6);
+      box-shadow: 0 0 0 4px rgba(255, 122, 154, 0.1);
+    }
+
+    .primary-btn {
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(255, 122, 154, 0.24);
+    }
+
+    .auth-message {
+      min-height: 22px;
+      margin-top: 12px;
+      color: var(--danger);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .app {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .intro {
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro::after {
+      content: "♡";
+      position: absolute;
+      right: 28px;
+      top: 16px;
+      font-size: 92px;
+      color: rgba(255, 122, 154, 0.12);
+      transform: rotate(12deg);
+    }
+
+    .intro h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 50px);
+      letter-spacing: -1px;
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 620px;
+    }
+
+    .date-card {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .date-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .today-text {
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .sync-status {
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(98, 197, 143, 0.12);
+      color: #32815a;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .date-nav {
+      display: grid;
+      grid-template-columns: 44px 1fr 44px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .date-input {
+      height: 44px;
+      border-radius: 14px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .person-card { padding: 22px; }
+
+    .person-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .person-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(255, 122, 154, 0.18), rgba(255, 255, 255, 0.85));
+    }
+
+    .person-title h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .progress-wrap {
+      text-align: right;
+      min-width: 92px;
+    }
+
+    .progress-text {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      width: 92px;
+      height: 8px;
+      background: rgba(255, 122, 154, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--blue));
+      border-radius: inherit;
+      transition: 0.2s ease;
+    }
+
+    .add-row {
+      display: grid;
+      grid-template-columns: 1fr 94px;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .todo-input {
+      height: 46px;
+    }
+
+    .add-btn {
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(255, 122, 154, 0.24);
+    }
+
+    .todo-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 160px;
+    }
+
+    .todo-item {
+      display: grid;
+      grid-template-columns: 34px 1fr 38px;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 122, 154, 0.12);
+      border-radius: 18px;
+      padding: 11px 10px;
+    }
+
+    .todo-item.done { opacity: 0.72; }
+
+    .check-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 122, 154, 0.24);
+      background: #fff;
+      color: transparent;
+      font-weight: 900;
+    }
+
+    .todo-item.done .check-btn {
+      background: linear-gradient(135deg, var(--green), #8ee3b6);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .todo-text {
+      font-size: 15px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .todo-item.done .todo-text {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .delete-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: rgba(255, 107, 107, 0.1);
+      color: var(--danger);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .empty {
+      color: var(--muted);
+      border: 1px dashed rgba(255, 122, 154, 0.25);
+      background: rgba(255, 255, 255, 0.38);
+      border-radius: 18px;
+      padding: 24px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .user-email {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .secondary-btn, .logout-btn {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+
+    .secondary-btn { color: var(--muted); }
+    .logout-btn { color: var(--danger); }
+
+    @media (max-width: 800px) {
+      body { padding: 14px; }
+      .hero, .main { grid-template-columns: 1fr; }
+      .intro, .date-card, .person-card, .login-card { padding: 20px; }
+      .footer { flex-direction: column; align-items: flex-start; }
+      .add-row { grid-template-columns: 1fr 82px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="auth-gate" id="authGate">
+    <div class="panel login-card">
+      <h1>Our Daily Todo</h1>
+      <p>这是你们两个人的每日待办清单。登录后才能查看和修改数据。</p>
+      <div class="login-form">
+        <input class="input" id="loginEmail" type="email" autocomplete="email" placeholder="邮箱" />
+        <input class="input" id="loginPassword" type="password" autocomplete="current-password" placeholder="密码" />
+        <button class="primary-btn" id="loginBtn">登录</button>
+      </div>
+      <div class="auth-message" id="authMessage"></div>
+    </div>
+  </section>
+
+  <div class="app" id="app" hidden>
+    <section class="hero">
+      <div class="panel intro">
+        <h1>Our Daily Todo</h1>
+        <p class="subtitle">每天一起完成一点点。适合情侣共享的每日待办清单：你一个列表，她一个列表，完成后自动同步。</p>
+      </div>
+
+      <div class="panel date-card">
+        <div class="date-top">
+          <div>
+            <div class="today-text" id="dayTitle">今天</div>
+            <div class="subtitle" id="daySubtitle">一起把今天过好。</div>
+          </div>
+          <div class="sync-status" id="syncStatus">连接中</div>
+        </div>
+
+        <div class="date-nav">
+          <button class="icon-btn" id="prevDay" title="前一天">‹</button>
+          <input class="input date-input" type="date" id="datePicker" />
+          <button class="icon-btn" id="nextDay" title="后一天">›</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="main">
+      <section class="panel person-card">
+        <div class="person-header">
+          <div class="person-title">
+            <div class="avatar">🧸</div>
+            <h2 id="meName">我的待办</h2>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-text" id="meProgressText">0/0</div>
+            <div class="progress-bar"><div class="progress-inner" id="meProgressBar"></div></div>
+          </div>
+        </div>
+        <div class="add-row">
+          <input class="input todo-input" id="meInput" placeholder="今天我要做什么？" />
+          <button class="add-btn" id="meAdd">添加</button>
+        </div>
+        <div class="todo-list" id="meList"></div>
+      </section>
+
+      <section class="panel person-card">
+        <div class="person-header">
+          <div class="person-title">
+            <div class="avatar">🌷</div>
+            <h2 id="herName">女朋友待办</h2>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-text" id="herProgressText">0/0</div>
+            <div class="progress-bar"><div class="progress-inner" id="herProgressBar"></div></div>
+          </div>
+        </div>
+        <div class="add-row">
+          <input class="input todo-input" id="herInput" placeholder="她今天要做什么？" />
+          <button class="add-btn" id="herAdd">添加</button>
+        </div>
+        <div class="todo-list" id="herList"></div>
+      </section>
+    </main>
+
+    <footer class="panel footer">
+      <span>小提示：可以把这个页面添加到手机桌面，每天像 App 一样打开。</span>
+      <div class="footer-actions">
+        <span class="user-email" id="userEmail"></span>
+        <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
+        <button class="logout-btn" id="logoutBtn">退出登录</button>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module">
+const firebaseConfig = {
+  apiKey: "AIzaSyDvWq8Zyeyman426znZoaWxZUrpzzKUkZk",
+  authDomain: "todo-list-678cb.firebaseapp.com",
+  projectId: "todo-list-678cb",
+  storageBucket: "todo-list-678cb.firebasestorage.app",
+  messagingSenderId: "938956444065",
+  appId: "1:938956444065:web:52a731e1b9e4d34d35fbe0",
+  measurementId: "G-JTK8DJV93X"
+};
+
+    const COUPLE_ID = "our-daily-todo";
+
+    const PERSON_NAMES = {
+      me: "我的待办",
+      her: "女朋友待办"
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      onSnapshot,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const state = {
+      app: null,
+      auth: null,
+      db: null,
+      user: null,
+      unsubscribe: null,
+      selectedDate: getTodayString(),
+      data: {
+        me: [],
+        her: []
+      }
+    };
+
+    const els = {
+      authGate: $("#authGate"),
+      appRoot: $("#app"),
+      loginEmail: $("#loginEmail"),
+      loginPassword: $("#loginPassword"),
+      loginBtn: $("#loginBtn"),
+      authMessage: $("#authMessage"),
+      userEmail: $("#userEmail"),
+      logoutBtn: $("#logoutBtn"),
+      dayTitle: $("#dayTitle"),
+      daySubtitle: $("#daySubtitle"),
+      syncStatus: $("#syncStatus"),
+      datePicker: $("#datePicker"),
+      prevDay: $("#prevDay"),
+      nextDay: $("#nextDay"),
+      meName: $("#meName"),
+      herName: $("#herName"),
+      meInput: $("#meInput"),
+      herInput: $("#herInput"),
+      meAdd: $("#meAdd"),
+      herAdd: $("#herAdd"),
+      meList: $("#meList"),
+      herList: $("#herList"),
+      meProgressText: $("#meProgressText"),
+      herProgressText: $("#herProgressText"),
+      meProgressBar: $("#meProgressBar"),
+      herProgressBar: $("#herProgressBar"),
+      copyLinkBtn: $("#copyLinkBtn")
+    };
+
+    init();
+
+    function init() {
+      els.meName.textContent = PERSON_NAMES.me;
+      els.herName.textContent = PERSON_NAMES.her;
+      els.datePicker.value = state.selectedDate;
+      bindEvents();
+      initFirebase();
+    }
+
+    function initFirebase() {
+      try {
+        const hasConfig = firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("替换成");
+        if (!hasConfig) {
+          showLogin();
+          els.authMessage.textContent = "先把 Firebase 提供的 firebaseConfig 复制到代码里。";
+          return;
+        }
+
+        state.app = initializeApp(firebaseConfig);
+        state.auth = getAuth(state.app);
+        state.db = getFirestore(state.app);
+
+        onAuthStateChanged(state.auth, (user) => {
+          if (user) {
+            state.user = user;
+            showApp(user);
+            loadDate(state.selectedDate);
+          } else {
+            state.user = null;
+            showLogin();
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        showLogin();
+        els.authMessage.textContent = "Firebase 初始化失败，请检查 firebaseConfig 是否复制完整。";
+      }
+    }
+
+    function bindEvents() {
+      els.loginBtn.addEventListener("click", login);
+      els.loginEmail.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") login();
+      });
+      els.loginPassword.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") login();
+      });
+
+      els.logoutBtn.addEventListener("click", async () => {
+        if (state.unsubscribe) {
+          state.unsubscribe();
+          state.unsubscribe = null;
+        }
+        await signOut(state.auth);
+      });
+
+      els.meAdd.addEventListener("click", () => addTodo("me"));
+      els.herAdd.addEventListener("click", () => addTodo("her"));
+
+      els.meInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") addTodo("me");
+      });
+      els.herInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") addTodo("her");
+      });
+
+      els.datePicker.addEventListener("change", (event) => {
+        loadDate(event.target.value);
+      });
+
+      els.prevDay.addEventListener("click", () => changeDay(-1));
+      els.nextDay.addEventListener("click", () => changeDay(1));
+
+      els.copyLinkBtn.addEventListener("click", async () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("date", state.selectedDate);
+        await navigator.clipboard.writeText(url.toString());
+        els.copyLinkBtn.textContent = "已复制";
+        setTimeout(() => {
+          els.copyLinkBtn.textContent = "复制今日链接";
+        }, 1200);
+      });
+    }
+
+    async function login() {
+      const email = els.loginEmail.value.trim();
+      const password = els.loginPassword.value;
+
+      if (!state.auth) {
+        els.authMessage.textContent = "Firebase 还没配置好，暂时不能登录。";
+        return;
+      }
+
+      if (!email || !password) {
+        els.authMessage.textContent = "请输入邮箱和密码。";
+        return;
+      }
+
+      try {
+        els.loginBtn.disabled = true;
+        els.loginBtn.textContent = "登录中...";
+        els.authMessage.textContent = "";
+        await signInWithEmailAndPassword(state.auth, email, password);
+      } catch (error) {
+        console.error(error);
+        els.authMessage.textContent = "登录失败：检查邮箱密码，或确认 Firebase 已开启 Email/Password 登录。";
+      } finally {
+        els.loginBtn.disabled = false;
+        els.loginBtn.textContent = "登录";
+      }
+    }
+
+    function showLogin() {
+      els.authGate.hidden = false;
+      els.appRoot.hidden = true;
+      els.userEmail.textContent = "";
+    }
+
+    function showApp(user) {
+      els.authGate.hidden = true;
+      els.appRoot.hidden = false;
+      els.userEmail.textContent = user.email || "已登录";
+      setSyncStatus("云同步已连接", "ok");
+    }
+
+    function loadDate(dateString) {
+      const urlDate = new URLSearchParams(window.location.search).get("date");
+      if (urlDate && isValidDateString(urlDate) && state.selectedDate === getTodayString()) {
+        dateString = urlDate;
+      }
+
+      state.selectedDate = dateString;
+      els.datePicker.value = dateString;
+      renderDateTitle();
+
+      if (state.unsubscribe) {
+        state.unsubscribe();
+        state.unsubscribe = null;
+      }
+
+      listenCloudData();
+    }
+
+    function listenCloudData() {
+      if (!state.db || !state.user) return;
+
+      const ref = getDayDocRef();
+      state.unsubscribe = onSnapshot(ref, async (snapshot) => {
+        if (!snapshot.exists()) {
+          const initialData = createEmptyDayData();
+          await setDoc(ref, initialData);
+          return;
+        }
+
+        const cloudData = snapshot.data();
+        state.data = normalizeData(cloudData);
+        render();
+        setSyncStatus("已同步", "ok");
+      }, (error) => {
+        console.error(error);
+        setSyncStatus("同步失败", "error");
+      });
+    }
+
+    async function saveData() {
+      if (!state.db || !state.user) return;
+
+      const payload = {
+        ...state.data,
+        updatedAt: new Date().toISOString(),
+        updatedBy: state.user.email || state.user.uid
+      };
+
+      try {
+        await updateDoc(getDayDocRef(), payload);
+        setSyncStatus("已同步", "ok");
+      } catch (error) {
+        try {
+          await setDoc(getDayDocRef(), payload);
+          setSyncStatus("已同步", "ok");
+        } catch (finalError) {
+          console.error(finalError);
+          setSyncStatus("保存失败", "error");
+        }
+      }
+    }
+
+    function addTodo(person) {
+      const input = person === "me" ? els.meInput : els.herInput;
+      const text = input.value.trim();
+      if (!text) return;
+
+      state.data[person].push({
+        id: Date.now() + "-" + Math.random().toString(16).slice(2),
+        text,
+        done: false,
+        createdAt: new Date().toISOString(),
+        createdBy: state.user ? state.user.email : "unknown"
+      });
+
+      input.value = "";
+      render();
+      saveData();
+    }
+
+    function toggleTodo(person, id) {
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== id) return todo;
+        const nextDone = !todo.done;
+        return {
+          ...todo,
+          done: nextDone,
+          doneAt: nextDone ? new Date().toISOString() : null,
+          doneBy: nextDone && state.user ? state.user.email : null
+        };
+      });
+
+      render();
+      saveData();
+    }
+
+    function deleteTodo(person, id) {
+      const ok = confirm("确定要删除这条待办吗？");
+      if (!ok) return;
+
+      state.data[person] = state.data[person].filter((todo) => todo.id !== id);
+      render();
+      saveData();
+    }
+
+    function render() {
+      renderList("me", els.meList);
+      renderList("her", els.herList);
+      renderProgress("me");
+      renderProgress("her");
+    }
+
+    function renderList(person, container) {
+      const todos = state.data[person] || [];
+
+      if (todos.length === 0) {
+        container.innerHTML = "<div class='empty'>今天还没有待办。<br />先写下一件小事吧。</div>";
+        return;
+      }
+
+      container.innerHTML = "";
+
+      todos.forEach((todo) => {
+        const item = document.createElement("div");
+        item.className = "todo-item" + (todo.done ? " done" : "");
+
+        const checkBtn = document.createElement("button");
+        checkBtn.className = "check-btn";
+        checkBtn.textContent = "✓";
+        checkBtn.title = todo.done ? "标记为未完成" : "标记为完成";
+        checkBtn.addEventListener("click", () => toggleTodo(person, todo.id));
+
+        const text = document.createElement("div");
+        text.className = "todo-text";
+        text.textContent = todo.text;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.textContent = "×";
+        deleteBtn.title = "删除";
+        deleteBtn.addEventListener("click", () => deleteTodo(person, todo.id));
+
+        item.appendChild(checkBtn);
+        item.appendChild(text);
+        item.appendChild(deleteBtn);
+        container.appendChild(item);
+      });
+    }
+
+    function renderProgress(person) {
+      const todos = state.data[person] || [];
+      const done = todos.filter((todo) => todo.done).length;
+      const total = todos.length;
+      const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+      const textEl = person === "me" ? els.meProgressText : els.herProgressText;
+      const barEl = person === "me" ? els.meProgressBar : els.herProgressBar;
+
+      textEl.textContent = done + "/" + total;
+      barEl.style.width = percent + "%";
+    }
+
+    function renderDateTitle() {
+      const today = getTodayString();
+      const yesterday = addDays(today, -1);
+      const tomorrow = addDays(today, 1);
+
+      if (state.selectedDate === today) {
+        els.dayTitle.textContent = "今天";
+        els.daySubtitle.textContent = formatPrettyDate(state.selectedDate) + " · 一起把今天过好。";
+      } else if (state.selectedDate === yesterday) {
+        els.dayTitle.textContent = "昨天";
+        els.daySubtitle.textContent = formatPrettyDate(state.selectedDate) + " · 回顾一下完成了什么。";
+      } else if (state.selectedDate === tomorrow) {
+        els.dayTitle.textContent = "明天";
+        els.daySubtitle.textContent = formatPrettyDate(state.selectedDate) + " · 提前安排也很棒。";
+      } else {
+        els.dayTitle.textContent = "某一天";
+        els.daySubtitle.textContent = formatPrettyDate(state.selectedDate) + " · 每一天都值得记录。";
+      }
+    }
+
+    function changeDay(offset) {
+      loadDate(addDays(state.selectedDate, offset));
+    }
+
+    function getDayDocRef() {
+      return doc(state.db, "coupleTodos", COUPLE_ID, "days", state.selectedDate);
+    }
+
+    function createEmptyDayData() {
+      return {
+        me: [],
+        her: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        createdBy: state.user ? state.user.email : "unknown"
+      };
+    }
+
+    function normalizeData(data) {
+      return {
+        me: Array.isArray(data.me) ? data.me : [],
+        her: Array.isArray(data.her) ? data.her : []
+      };
+    }
+
+    function setSyncStatus(text, type) {
+      els.syncStatus.textContent = text;
+
+      if (type === "ok") {
+        els.syncStatus.style.background = "rgba(98, 197, 143, 0.12)";
+        els.syncStatus.style.color = "#32815a";
+      }
+
+      if (type === "warn") {
+        els.syncStatus.style.background = "rgba(255, 200, 87, 0.16)";
+        els.syncStatus.style.color = "#986d00";
+      }
+
+      if (type === "error") {
+        els.syncStatus.style.background = "rgba(255, 107, 107, 0.12)";
+        els.syncStatus.style.color = "#b84545";
+      }
+    }
+
+    function getTodayString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function addDays(dateString, amount) {
+      const date = new Date(dateString + "T00:00:00");
+      date.setDate(date.getDate() + amount);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function formatPrettyDate(dateString) {
+      const date = new Date(dateString + "T00:00:00");
+      return date.toLocaleDateString("zh-CN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long"
+      });
+    }
+
+    function isValidDateString(dateString) {
+      if (!dateString || dateString.length !== 10) return false;
+      if (dateString.charAt(4) !== "-" || dateString.charAt(7) !== "-") return false;
+      const date = new Date(dateString + "T00:00:00");
+      return !Number.isNaN(date.getTime());
+    }
+  </script>
+</body>
+</html>
