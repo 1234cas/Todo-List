@@ -105,7 +105,7 @@
     }
 
     .textarea {
-      min-height: 84px;
+      min-height: 110px;
       resize: vertical;
       padding: 12px 14px;
       line-height: 1.55;
@@ -136,7 +136,7 @@
     }
 
     .app {
-      width: min(1240px, 100%);
+      width: min(1120px, 100%);
       margin: 0 auto;
     }
 
@@ -180,6 +180,43 @@
       line-height: 1.7;
       max-width: 620px;
     }
+
+    .account-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .user-email {
+      color: #4b5563;
+      background: rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      max-width: 260px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .secondary-btn,
+    .logout-btn {
+      background: #fff;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 750;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .secondary-btn { color: var(--muted); }
+    .logout-btn { color: var(--danger); }
 
     .date-card {
       padding: 22px;
@@ -251,70 +288,14 @@
       box-shadow: var(--shadow-soft);
     }
 
-    .daily-section {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 18px;
-      margin-bottom: 18px;
-    }
-
-    .mood-card,
-    .message-card {
-      padding: 22px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: -0.2px;
-    }
-
-    .mood-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .mood-item label,
-    .message-item label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 750;
-    }
-
-    .message-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .save-hint {
-      color: var(--soft-muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
     .main {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
 
-    .together-card {
-      grid-column: 1 / -1;
-    }
-
     .person-card { padding: 22px; }
+    .together-card { grid-column: 1 / -1; }
 
     .person-header {
       display: flex;
@@ -324,10 +305,15 @@
       margin-bottom: 18px;
     }
 
+    .together-header {
+      align-items: flex-start;
+    }
+
     .person-title {
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
 
     .avatar {
@@ -346,6 +332,52 @@
       margin: 0;
       font-size: 21px;
       letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+
+    .together-tools {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .power-line {
+      color: #4b5563;
+      font-weight: 800;
+      line-height: 1.6;
+      font-size: 13px;
+      max-width: 320px;
+    }
+
+    .mood-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mood-inline label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mood-select {
+      width: 116px;
+      height: 38px;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .save-hint {
+      color: var(--soft-muted);
+      font-size: 12px;
+      font-weight: 700;
     }
 
     .progress-wrap {
@@ -484,30 +516,34 @@
     }
 
     .todo-note {
-      margin-top: 8px;
+      margin-top: 9px;
       color: #4b5563;
       font-size: 13px;
       line-height: 1.55;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.04);
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(236, 111, 145, 0.07), rgba(124, 156, 255, 0.06));
+      border: 1px solid rgba(236, 111, 145, 0.09);
       white-space: pre-wrap;
       word-break: break-word;
     }
 
     .checklist {
-      margin: 8px 0 0;
-      padding: 0;
+      margin: 9px 0 0;
+      padding: 10px;
       list-style: none;
       display: grid;
-      gap: 6px;
+      gap: 7px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.035);
+      border: 1px solid rgba(15, 23, 42, 0.05);
     }
 
     .checklist li {
       display: grid;
       grid-template-columns: 22px 1fr 22px;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       color: #4b5563;
       font-size: 13px;
       line-height: 1.4;
@@ -565,8 +601,6 @@
       line-height: 1;
     }
 
-    .badge-important { background: rgba(236, 111, 145, 0.12); color: #c64d70; }
-    .badge-normal { background: rgba(15, 23, 42, 0.06); color: var(--muted); }
     .badge-pin { background: rgba(255, 200, 87, 0.22); color: #9a6a00; }
     .badge-carry { background: rgba(124, 156, 255, 0.13); color: #526188; }
 
@@ -600,21 +634,25 @@
     .todo-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-top: 9px;
+      gap: 7px;
+      margin-top: 10px;
       flex-wrap: wrap;
     }
 
     .mini-btn {
-      height: 26px;
+      height: 30px;
       border-radius: 999px;
-      padding: 0 9px;
+      padding: 0 11px;
       background: #fff;
-      border: 1px solid var(--border);
-      color: var(--muted);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      color: #4b5563;
       font-size: 12px;
-      font-weight: 750;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
     }
+
+    .note-btn { color: #c64d70; }
+    .list-btn { color: #526188; }
 
     .empty {
       color: var(--muted);
@@ -659,91 +697,87 @@
       font-weight: 700;
     }
 
-    .footer {
-      margin-top: 18px;
-      padding: 18px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(17, 24, 39, 0.28);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-card {
+      width: min(440px, 100%);
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+      padding: 22px;
+      animation: popIn 0.16s ease;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-title {
+      margin: 0 0 6px;
+      font-size: 21px;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-desc {
+      margin: 0 0 14px;
       color: var(--muted);
       font-size: 13px;
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      min-width: 0;
-    }
-
-    .power-line {
-      color: #4b5563;
-      font-weight: 800;
       line-height: 1.6;
     }
 
-    .mood-inline {
+    .modal-actions {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
     }
 
-    .mood-inline label {
-      color: var(--muted);
-      font-size: 13px;
+    .modal-cancel,
+    .modal-save {
+      height: 42px;
+      border-radius: 999px;
+      padding: 0 16px;
       font-weight: 800;
     }
 
-    .mood-select {
-      width: 116px;
-      height: 38px;
-      border-radius: 999px;
-      padding: 0 10px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .footer-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .user-email {
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .secondary-btn,
-    .logout-btn {
+    .modal-cancel {
       background: #fff;
       border: 1px solid var(--border-strong);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      color: var(--muted);
     }
 
-    .secondary-btn { color: var(--muted); }
-    .logout-btn { color: var(--danger); }
+    .modal-save {
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      box-shadow: 0 10px 22px rgba(236, 111, 145, 0.18);
+    }
 
-    @media (max-width: 1100px) {
-      .main { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      .hero, .main { grid-template-columns: 1fr; }
+      .together-card { grid-column: auto; }
     }
 
     @media (max-width: 800px) {
       body { padding: 14px; }
-      .hero { grid-template-columns: 1fr; }
-      .mood-grid { grid-template-columns: 1fr; }
-      .intro, .date-card, .person-card, .login-card, .mood-card { padding: 20px; }
-      .footer { flex-direction: column; align-items: flex-start; }
+      .intro, .date-card, .person-card, .login-card { padding: 20px; }
       .add-row { grid-template-columns: 1fr 76px; }
       .todo-item { grid-template-columns: 34px 1fr 36px 36px; gap: 8px; }
       .carry-row { align-items: flex-start; flex-direction: column; }
+      .person-header, .together-header { align-items: flex-start; flex-direction: column; }
+      .together-tools { justify-content: flex-start; }
+      .power-line { max-width: none; }
+      .mood-select { width: 110px; }
     }
   </style>
 </head>
@@ -753,8 +787,8 @@
       <h1>Our Daily Todo</h1>
       <p>这是米和圈的每日待办清单。登录后才能查看和修改数据。</p>
       <div class="login-form">
-        <input class="input" id="loginEmail" type="email" autocomplete="email" placeholder="邮箱" />
-        <input class="input" id="loginPassword" type="password" autocomplete="current-password" placeholder="密码" />
+        <input class="input" id="loginEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="邮箱" />
+        <input class="input" id="loginPassword" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="密码" />
         <button class="primary-btn" id="loginBtn">登录</button>
       </div>
       <div class="auth-message" id="authMessage"></div>
@@ -766,6 +800,11 @@
       <div class="panel intro">
         <h1>Our Daily Todo</h1>
         <p class="subtitle">每天一起完成一点点。米、圈、一起做，各自努力，也一起把日子过好。</p>
+        <div class="account-row">
+          <span class="user-email" id="userEmail"></span>
+          <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
+          <button class="logout-btn" id="logoutBtn">退出登录</button>
+        </div>
       </div>
 
       <div class="panel date-card">
@@ -827,14 +866,40 @@
       </section>
 
       <section class="panel person-card together-card">
-        <div class="person-header">
+        <div class="person-header together-header">
           <div class="person-title">
             <div class="avatar">🤝</div>
             <h2 id="togetherName">一起做</h2>
           </div>
-          <div class="progress-wrap">
-            <div class="progress-text" id="togetherProgressText">0/0</div>
-            <div class="progress-bar"><div class="progress-inner" id="togetherProgressBar"></div></div>
+          <div class="together-tools">
+            <span class="power-line" id="powerLine">认真生活的人，都会一点点变强。</span>
+            <div class="mood-inline">
+              <label for="meMood">米</label>
+              <select class="select mood-select" id="meMood">
+                <option value="">心情</option>
+                <option value="开心 😊">开心 😊</option>
+                <option value="平静 🌿">平静 🌿</option>
+                <option value="有点累 😴">有点累 😴</option>
+                <option value="压力大 🌧️">压力大 🌧️</option>
+                <option value="想摆烂 🫠">想摆烂 🫠</option>
+                <option value="充满力量 🔥">充满力量 🔥</option>
+              </select>
+              <label for="herMood">圈</label>
+              <select class="select mood-select" id="herMood">
+                <option value="">心情</option>
+                <option value="开心 😊">开心 😊</option>
+                <option value="平静 🌿">平静 🌿</option>
+                <option value="有点累 😴">有点累 😴</option>
+                <option value="压力大 🌧️">压力大 🌧️</option>
+                <option value="想摆烂 🫠">想摆烂 🫠</option>
+                <option value="充满力量 🔥">充满力量 🔥</option>
+              </select>
+              <span class="save-hint" id="moodHint">自动保存</span>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-text" id="togetherProgressText">0/0</div>
+              <div class="progress-bar"><div class="progress-inner" id="togetherProgressBar"></div></div>
+            </div>
           </div>
         </div>
         <div class="add-row">
@@ -846,40 +911,18 @@
         <div class="todo-list" id="togetherList"></div>
       </section>
     </main>
+  </div>
 
-    <footer class="panel footer">
-      <div class="footer-left">
-        <span class="power-line" id="powerLine">认真生活的人，都会一点点变强。</span>
-        <div class="mood-inline">
-          <label for="meMood">米</label>
-          <select class="select mood-select" id="meMood">
-            <option value="">心情</option>
-            <option value="开心 😊">开心 😊</option>
-            <option value="平静 🌿">平静 🌿</option>
-            <option value="有点累 😴">有点累 😴</option>
-            <option value="压力大 🌧️">压力大 🌧️</option>
-            <option value="想摆烂 🫠">想摆烂 🫠</option>
-            <option value="充满力量 🔥">充满力量 🔥</option>
-          </select>
-          <label for="herMood">圈</label>
-          <select class="select mood-select" id="herMood">
-            <option value="">心情</option>
-            <option value="开心 😊">开心 😊</option>
-            <option value="平静 🌿">平静 🌿</option>
-            <option value="有点累 😴">有点累 😴</option>
-            <option value="压力大 🌧️">压力大 🌧️</option>
-            <option value="想摆烂 🫠">想摆烂 🫠</option>
-            <option value="充满力量 🔥">充满力量 🔥</option>
-          </select>
-          <span class="save-hint" id="moodHint">自动保存</span>
-        </div>
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <h3 class="modal-title" id="modalTitle">添加备注</h3>
+      <p class="modal-desc" id="modalDesc">写下这条待办的补充信息。</p>
+      <textarea class="textarea" id="modalInput" placeholder="写在这里"></textarea>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modalCancel">取消</button>
+        <button class="modal-save" id="modalSave">保存</button>
       </div>
-      <div class="footer-actions">
-        <span class="user-email" id="userEmail"></span>
-        <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
-        <button class="logout-btn" id="logoutBtn">退出登录</button>
-      </div>
-    </footer>
+    </div>
   </div>
 
   <script type="module">
@@ -939,6 +982,7 @@
       user: null,
       unsubscribe: null,
       saveTimer: null,
+      modalResolve: null,
       selectedDate: getTodayString(),
       data: createEmptyStateData(),
       page: { me: 1, her: 1, together: 1 },
@@ -955,6 +999,7 @@
       authMessage: $("#authMessage"),
       userEmail: $("#userEmail"),
       logoutBtn: $("#logoutBtn"),
+      copyLinkBtn: $("#copyLinkBtn"),
       powerLine: $("#powerLine"),
       dayTitle: $("#dayTitle"),
       daySubtitle: $("#daySubtitle"),
@@ -989,7 +1034,12 @@
       meProgressBar: $("#meProgressBar"),
       herProgressBar: $("#herProgressBar"),
       togetherProgressBar: $("#togetherProgressBar"),
-      copyLinkBtn: $("#copyLinkBtn")
+      modalBackdrop: $("#modalBackdrop"),
+      modalTitle: $("#modalTitle"),
+      modalDesc: $("#modalDesc"),
+      modalInput: $("#modalInput"),
+      modalCancel: $("#modalCancel"),
+      modalSave: $("#modalSave")
     };
 
     init();
@@ -1051,7 +1101,6 @@
       els.meMood.addEventListener("change", () => updateMood("me", els.meMood.value));
       els.herMood.addEventListener("change", () => updateMood("her", els.herMood.value));
 
-
       els.datePicker.addEventListener("change", (event) => loadDate(event.target.value));
       els.prevDay.addEventListener("click", () => changeDay(-1));
       els.nextDay.addEventListener("click", () => changeDay(1));
@@ -1063,11 +1112,20 @@
         els.copyLinkBtn.textContent = "已复制";
         setTimeout(() => { els.copyLinkBtn.textContent = "复制今日链接"; }, 1200);
       });
+
+      els.modalCancel.addEventListener("click", () => closeModal(null));
+      els.modalSave.addEventListener("click", () => closeModal(els.modalInput.value));
+      els.modalBackdrop.addEventListener("click", (event) => {
+        if (event.target === els.modalBackdrop) closeModal(null);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !els.modalBackdrop.hidden) closeModal(null);
+      });
     }
 
     async function login() {
-      const email = els.loginEmail.value.trim();
-      const password = els.loginPassword.value;
+      const email = els.loginEmail.value.trim().toLowerCase();
+      const password = els.loginPassword.value.trim();
 
       if (!state.auth) {
         els.authMessage.textContent = "Firebase 还没配置好，暂时不能登录。";
@@ -1213,7 +1271,6 @@
         id: createId(),
         text,
         done: false,
-        priority: "normal",
         pinned: false,
         note: "",
         checklist: [],
@@ -1239,7 +1296,6 @@
         id: createId(),
         text: todo.text,
         done: false,
-        priority: todo.priority || "normal",
         pinned: Boolean(todo.pinned),
         note: todo.note || "",
         checklist: Array.isArray(todo.checklist) ? todo.checklist.map((item) => ({ ...item, done: false })) : [],
@@ -1259,7 +1315,6 @@
       state.data.mood[person] = value;
       scheduleSave(els.moodHint);
     }
-
 
     function toggleTodo(person, id) {
       state.data[person] = state.data[person].map((todo) => {
@@ -1288,23 +1343,18 @@
       saveData();
     }
 
-    function togglePriority(person, id) {
-      state.data[person] = state.data[person].map((todo) => {
-        if (todo.id !== id) return todo;
-        const nextPriority = todo.priority === "important" ? "normal" : "important";
-        return { ...todo, priority: nextPriority };
-      });
-
-      state.page[person] = 1;
-      render();
-      saveData();
-    }
-
-    function editNote(person, id) {
+    async function editNote(person, id) {
       const todo = findTodo(person, id);
       if (!todo) return;
 
-      const nextNote = prompt("备注", todo.note || "");
+      const nextNote = await openModal({
+        title: todo.note ? "修改备注" : "添加备注",
+        desc: "写一点补充信息，提醒自己这件事要怎么做。",
+        placeholder: "例如：晚上 8 点前完成，或者写下具体要求。",
+        value: todo.note || "",
+        saveText: "保存备注"
+      });
+
       if (nextNote === null) return;
 
       state.data[person] = state.data[person].map((item) => {
@@ -1316,8 +1366,15 @@
       saveData();
     }
 
-    function addChecklistItem(person, id) {
-      const text = prompt("添加小清单", "");
+    async function addChecklistItem(person, id) {
+      const text = await openModal({
+        title: "添加小项",
+        desc: "把一件大事拆成一个更小的步骤。",
+        placeholder: "例如：买牛奶 / 发消息 / 整理桌面",
+        value: "",
+        saveText: "添加小项"
+      });
+
       if (text === null || !text.trim()) return;
 
       state.data[person] = state.data[person].map((todo) => {
@@ -1461,11 +1518,6 @@
         const meta = document.createElement("div");
         meta.className = "todo-meta";
 
-        const priorityBadge = document.createElement("span");
-        priorityBadge.className = "badge " + (todo.priority === "important" ? "badge-important" : "badge-normal");
-        priorityBadge.textContent = todo.priority === "important" ? "重要" : "普通";
-        meta.appendChild(priorityBadge);
-
         if (todo.pinned) {
           const pinBadge = document.createElement("span");
           pinBadge.className = "badge badge-pin";
@@ -1481,7 +1533,7 @@
         }
 
         body.appendChild(text);
-        body.appendChild(meta);
+        if (meta.children.length > 0) body.appendChild(meta);
 
         if (todo.note) {
           const note = document.createElement("div");
@@ -1497,21 +1549,15 @@
         const actions = document.createElement("div");
         actions.className = "todo-actions";
 
-        const priorityBtn = document.createElement("button");
-        priorityBtn.className = "mini-btn";
-        priorityBtn.textContent = todo.priority === "important" ? "改普通" : "设重要";
-        priorityBtn.addEventListener("click", () => togglePriority(person, todo.id));
-        actions.appendChild(priorityBtn);
-
         const noteBtn = document.createElement("button");
-        noteBtn.className = "mini-btn";
-        noteBtn.textContent = todo.note ? "改备注" : "备注";
+        noteBtn.className = "mini-btn note-btn";
+        noteBtn.textContent = todo.note ? "📝 改备注" : "📝 备注";
         noteBtn.addEventListener("click", () => editNote(person, todo.id));
         actions.appendChild(noteBtn);
 
         const checklistBtn = document.createElement("button");
-        checklistBtn.className = "mini-btn";
-        checklistBtn.textContent = "+小项";
+        checklistBtn.className = "mini-btn list-btn";
+        checklistBtn.textContent = "☑ 加小项";
         checklistBtn.addEventListener("click", () => addChecklistItem(person, todo.id));
         actions.appendChild(checklistBtn);
 
@@ -1604,9 +1650,6 @@
       const todos = state.data[person] || [];
       return [...todos].sort((a, b) => {
         if (Boolean(a.pinned) !== Boolean(b.pinned)) return Boolean(b.pinned) - Boolean(a.pinned);
-        if ((a.priority || "normal") !== (b.priority || "normal")) {
-          return (b.priority === "important" ? 1 : 0) - (a.priority === "important" ? 1 : 0);
-        }
         return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
       });
     }
@@ -1649,6 +1692,26 @@
       }
     }
 
+    function openModal({ title, desc, placeholder, value, saveText }) {
+      return new Promise((resolve) => {
+        state.modalResolve = resolve;
+        els.modalTitle.textContent = title;
+        els.modalDesc.textContent = desc;
+        els.modalInput.placeholder = placeholder;
+        els.modalInput.value = value || "";
+        els.modalSave.textContent = saveText || "保存";
+        els.modalBackdrop.hidden = false;
+        setTimeout(() => els.modalInput.focus(), 30);
+      });
+    }
+
+    function closeModal(value) {
+      els.modalBackdrop.hidden = true;
+      const resolve = state.modalResolve;
+      state.modalResolve = null;
+      if (resolve) resolve(value);
+    }
+
     function changeDay(offset) {
       loadDate(addDays(state.selectedDate, offset));
     }
@@ -1687,14 +1750,12 @@
         her: data.mood && typeof data.mood.her === "string" ? data.mood.her : ""
       };
 
-
       return normalized;
     }
 
     function normalizeTodo(todo) {
       return {
         ...todo,
-        priority: todo.priority === "important" ? "important" : "normal",
         pinned: Boolean(todo.pinned),
         note: typeof todo.note === "string" ? todo.note : "",
         checklist: Array.isArray(todo.checklist) ? todo.checklist.map(normalizeChecklistItem) : []
