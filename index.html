@@ -6,21 +6,26 @@
   <title>Our Daily Todo</title>
   <style>
     :root {
-      --bg: #fff7f3;
-      --card: rgba(255, 255, 255, 0.84);
-      --text: #2f2a2a;
-      --muted: #8a7777;
-      --primary: #ff7a9a;
-      --primary-dark: #e75f82;
-      --blue: #6aa6ff;
-      --green: #62c58f;
+      --bg: #f6f7fb;
+      --card: rgba(255, 255, 255, 0.94);
+      --text: #111827;
+      --muted: #6b7280;
+      --soft-muted: #9ca3af;
+      --primary: #ec6f91;
+      --primary-dark: #d85b7d;
+      --blue: #7c9cff;
+      --green: #55b987;
       --yellow: #ffc857;
-      --danger: #ff6b6b;
-      --shadow: 0 18px 50px rgba(255, 122, 154, 0.18);
-      --border: rgba(255, 122, 154, 0.16);
+      --danger: #ef6464;
+      --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.06);
+      --border: rgba(15, 23, 42, 0.08);
+      --border-strong: rgba(15, 23, 42, 0.12);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -28,20 +33,22 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 12% 18%, rgba(255, 122, 154, 0.22), transparent 28%),
-        radial-gradient(circle at 88% 10%, rgba(106, 166, 255, 0.18), transparent 25%),
-        linear-gradient(135deg, #fff7f3 0%, #fff1f7 46%, #f3f8ff 100%);
+        linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(246,247,251,0.88) 40%, rgba(241,244,249,1) 100%),
+        radial-gradient(circle at top right, rgba(236, 111, 145, 0.08), transparent 32%),
+        #f6f7fb;
       padding: 22px;
     }
 
-    [hidden] { display: none !important; }
+    [hidden] {
+      display: none !important;
+    }
 
     .panel {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 28px;
+      border-radius: 24px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(10px);
     }
 
     button {
@@ -51,9 +58,19 @@
       transition: 0.18s ease;
     }
 
-    button:hover { transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    button:disabled { opacity: 0.65; cursor: not-allowed; }
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
 
     .auth-gate {
       min-height: calc(100vh - 44px);
@@ -95,11 +112,12 @@
       font-size: 15px;
       padding: 0 14px;
       outline: none;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.02);
     }
 
     .input:focus {
-      border-color: rgba(255, 122, 154, 0.6);
-      box-shadow: 0 0 0 4px rgba(255, 122, 154, 0.1);
+      border-color: rgba(236, 111, 145, 0.5);
+      box-shadow: 0 0 0 4px rgba(236, 111, 145, 0.1);
     }
 
     .primary-btn {
@@ -107,8 +125,8 @@
       border-radius: 16px;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(255, 122, 154, 0.24);
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(236, 111, 145, 0.2);
     }
 
     .auth-message {
@@ -141,24 +159,26 @@
     .intro::after {
       content: "♡";
       position: absolute;
-      right: 28px;
-      top: 16px;
-      font-size: 92px;
-      color: rgba(255, 122, 154, 0.12);
-      transform: rotate(12deg);
+      right: 24px;
+      top: 18px;
+      font-size: 74px;
+      color: rgba(236, 111, 145, 0.055);
+      transform: rotate(10deg);
+      pointer-events: none;
     }
 
     .intro h1 {
       margin: 0 0 10px;
-      font-size: clamp(30px, 5vw, 50px);
-      letter-spacing: -1px;
-      line-height: 1.05;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.8px;
+      line-height: 1.1;
+      color: #111827;
     }
 
     .subtitle {
       margin: 0;
       color: var(--muted);
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.7;
       max-width: 620px;
     }
@@ -169,27 +189,38 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 18px;
+      background: rgba(255, 255, 255, 0.96);
     }
 
     .date-top {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
     }
 
     .today-text {
-      font-weight: 800;
-      font-size: 20px;
+      font-weight: 750;
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -0.4px;
+      color: #111827;
+    }
+
+    #daySubtitle {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .sync-status {
       border-radius: 999px;
       padding: 8px 12px;
-      background: rgba(98, 197, 143, 0.12);
-      color: #32815a;
+      background: rgba(85, 185, 135, 0.1);
+      color: #2f7f59;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 650;
       white-space: nowrap;
     }
 
@@ -203,6 +234,11 @@
     .date-input {
       height: 44px;
       border-radius: 14px;
+      border-color: var(--border-strong);
+      color: #111827;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: 0.1px;
     }
 
     .icon-btn {
@@ -210,10 +246,11 @@
       height: 44px;
       border-radius: 14px;
       background: #fff;
-      border: 1px solid var(--border);
-      color: var(--primary-dark);
+      border: 1px solid var(--border-strong);
+      color: #6b7280;
       font-size: 18px;
-      font-weight: 800;
+      font-weight: 750;
+      box-shadow: var(--shadow-soft);
     }
 
     .main {
@@ -222,7 +259,9 @@
       gap: 18px;
     }
 
-    .person-card { padding: 22px; }
+    .person-card {
+      padding: 22px;
+    }
 
     .person-header {
       display: flex;
@@ -241,16 +280,18 @@
     .avatar {
       width: 46px;
       height: 46px;
-      border-radius: 18px;
+      border-radius: 17px;
       display: grid;
       place-items: center;
       font-size: 22px;
-      background: linear-gradient(135deg, rgba(255, 122, 154, 0.18), rgba(255, 255, 255, 0.85));
+      background: linear-gradient(135deg, rgba(236, 111, 145, 0.11), rgba(255, 255, 255, 0.9));
+      border: 1px solid rgba(236, 111, 145, 0.1);
     }
 
     .person-title h2 {
       margin: 0;
-      font-size: 22px;
+      font-size: 21px;
+      letter-spacing: -0.2px;
     }
 
     .progress-wrap {
@@ -262,12 +303,13 @@
       color: var(--muted);
       font-size: 12px;
       margin-bottom: 6px;
+      font-weight: 650;
     }
 
     .progress-bar {
       width: 92px;
       height: 8px;
-      background: rgba(255, 122, 154, 0.12);
+      background: rgba(236, 111, 145, 0.1);
       border-radius: 999px;
       overflow: hidden;
     }
@@ -296,7 +338,7 @@
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       font-weight: 800;
-      box-shadow: 0 10px 22px rgba(255, 122, 154, 0.24);
+      box-shadow: 0 10px 22px rgba(236, 111, 145, 0.2);
     }
 
     .todo-list {
@@ -312,18 +354,20 @@
       align-items: center;
       gap: 10px;
       background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(255, 122, 154, 0.12);
+      border: 1px solid rgba(15, 23, 42, 0.07);
       border-radius: 18px;
       padding: 11px 10px;
     }
 
-    .todo-item.done { opacity: 0.72; }
+    .todo-item.done {
+      opacity: 0.72;
+    }
 
     .check-btn {
       width: 30px;
       height: 30px;
       border-radius: 11px;
-      border: 1px solid rgba(255, 122, 154, 0.24);
+      border: 1px solid rgba(15, 23, 42, 0.12);
       background: #fff;
       color: transparent;
       font-weight: 900;
@@ -350,7 +394,7 @@
       width: 34px;
       height: 34px;
       border-radius: 12px;
-      background: rgba(255, 107, 107, 0.1);
+      background: rgba(239, 100, 100, 0.1);
       color: var(--danger);
       font-size: 18px;
       font-weight: 900;
@@ -358,12 +402,13 @@
 
     .empty {
       color: var(--muted);
-      border: 1px dashed rgba(255, 122, 154, 0.25);
-      background: rgba(255, 255, 255, 0.38);
+      border: 1px dashed rgba(15, 23, 42, 0.14);
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 18px;
       padding: 24px;
       text-align: center;
       line-height: 1.7;
+      font-size: 14px;
     }
 
     .footer {
@@ -389,23 +434,49 @@
       font-weight: 700;
     }
 
-    .secondary-btn, .logout-btn {
+    .secondary-btn,
+    .logout-btn {
       background: #fff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 999px;
       padding: 10px 14px;
       font-weight: 700;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
     }
 
-    .secondary-btn { color: var(--muted); }
-    .logout-btn { color: var(--danger); }
+    .secondary-btn {
+      color: var(--muted);
+    }
+
+    .logout-btn {
+      color: var(--danger);
+    }
 
     @media (max-width: 800px) {
-      body { padding: 14px; }
-      .hero, .main { grid-template-columns: 1fr; }
-      .intro, .date-card, .person-card, .login-card { padding: 20px; }
-      .footer { flex-direction: column; align-items: flex-start; }
-      .add-row { grid-template-columns: 1fr 82px; }
+      body {
+        padding: 14px;
+      }
+
+      .hero,
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .intro,
+      .date-card,
+      .person-card,
+      .login-card {
+        padding: 20px;
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .add-row {
+        grid-template-columns: 1fr 82px;
+      }
     }
   </style>
 </head>
@@ -427,7 +498,7 @@
     <section class="hero">
       <div class="panel intro">
         <h1>Our Daily Todo</h1>
-        <p class="subtitle">每天一起完成一点点。适合情侣共享的每日待办清单：你一个列表，她一个列表，完成后自动同步。</p>
+        <p class="subtitle">每天一起完成一点点。米一个列表，圈一个列表，完成后自动同步。</p>
       </div>
 
       <div class="panel date-card">
@@ -452,7 +523,7 @@
         <div class="person-header">
           <div class="person-title">
             <div class="avatar">🧸</div>
-            <h2 id="meName">我的待办</h2>
+            <h2 id="meName">米的待办</h2>
           </div>
           <div class="progress-wrap">
             <div class="progress-text" id="meProgressText">0/0</div>
@@ -460,7 +531,7 @@
           </div>
         </div>
         <div class="add-row">
-          <input class="input todo-input" id="meInput" placeholder="今天我要做什么？" />
+          <input class="input todo-input" id="meInput" placeholder="米今天要做什么？" />
           <button class="add-btn" id="meAdd">添加</button>
         </div>
         <div class="todo-list" id="meList"></div>
@@ -469,8 +540,8 @@
       <section class="panel person-card">
         <div class="person-header">
           <div class="person-title">
-            <div class="avatar">🌷</div>
-            <h2 id="herName">女朋友待办</h2>
+            <div class="avatar">🍩</div>
+            <h2 id="herName">圈的待办</h2>
           </div>
           <div class="progress-wrap">
             <div class="progress-text" id="herProgressText">0/0</div>
@@ -478,7 +549,7 @@
           </div>
         </div>
         <div class="add-row">
-          <input class="input todo-input" id="herInput" placeholder="她今天要做什么？" />
+          <input class="input todo-input" id="herInput" placeholder="圈今天要做什么？" />
           <button class="add-btn" id="herAdd">添加</button>
         </div>
         <div class="todo-list" id="herList"></div>
@@ -509,8 +580,8 @@ const firebaseConfig = {
     const COUPLE_ID = "our-daily-todo";
 
     const PERSON_NAMES = {
-      me: "我的待办",
-      her: "女朋友待办"
+      me: "米的待办",
+      her: "圈的待办"
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
@@ -586,6 +657,7 @@ const firebaseConfig = {
     function initFirebase() {
       try {
         const hasConfig = firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("替换成");
+
         if (!hasConfig) {
           showLogin();
           els.authMessage.textContent = "先把 Firebase 提供的 firebaseConfig 复制到代码里。";
@@ -615,9 +687,11 @@ const firebaseConfig = {
 
     function bindEvents() {
       els.loginBtn.addEventListener("click", login);
+
       els.loginEmail.addEventListener("keydown", (event) => {
         if (event.key === "Enter") login();
       });
+
       els.loginPassword.addEventListener("keydown", (event) => {
         if (event.key === "Enter") login();
       });
@@ -636,6 +710,7 @@ const firebaseConfig = {
       els.meInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") addTodo("me");
       });
+
       els.herInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") addTodo("her");
       });
@@ -764,6 +839,7 @@ const firebaseConfig = {
     function addTodo(person) {
       const input = person === "me" ? els.meInput : els.herInput;
       const text = input.value.trim();
+
       if (!text) return;
 
       state.data[person].push({
@@ -910,8 +986,8 @@ const firebaseConfig = {
       els.syncStatus.textContent = text;
 
       if (type === "ok") {
-        els.syncStatus.style.background = "rgba(98, 197, 143, 0.12)";
-        els.syncStatus.style.color = "#32815a";
+        els.syncStatus.style.background = "rgba(85, 185, 135, 0.1)";
+        els.syncStatus.style.color = "#2f7f59";
       }
 
       if (type === "warn") {
@@ -920,7 +996,7 @@ const firebaseConfig = {
       }
 
       if (type === "error") {
-        els.syncStatus.style.background = "rgba(255, 107, 107, 0.12)";
+        els.syncStatus.style.background = "rgba(239, 100, 100, 0.12)";
         els.syncStatus.style.color = "#b84545";
       }
     }
