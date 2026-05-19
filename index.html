@@ -47,9 +47,7 @@
       backdrop-filter: blur(10px);
     }
 
-    button, select {
-      font-family: inherit;
-    }
+    button, select, textarea, input { font-family: inherit; }
 
     button {
       border: none;
@@ -86,25 +84,36 @@
       font-size: 14px;
     }
 
-    .login-form {
-      display: grid;
-      gap: 12px;
-    }
+    .login-form { display: grid; gap: 12px; }
 
-    .input {
+    .input,
+    .textarea,
+    .select {
       width: 100%;
-      height: 48px;
       border: 1px solid var(--border);
       border-radius: 16px;
       background: #fff;
       color: var(--text);
       font-size: 15px;
-      padding: 0 14px;
       outline: none;
       box-shadow: 0 1px 0 rgba(15, 23, 42, 0.02);
     }
 
-    .input:focus {
+    .input, .select {
+      height: 48px;
+      padding: 0 14px;
+    }
+
+    .textarea {
+      min-height: 84px;
+      resize: vertical;
+      padding: 12px 14px;
+      line-height: 1.55;
+    }
+
+    .input:focus,
+    .textarea:focus,
+    .select:focus {
       border-color: rgba(236, 111, 145, 0.5);
       box-shadow: 0 0 0 4px rgba(236, 111, 145, 0.1);
     }
@@ -127,7 +136,7 @@
     }
 
     .app {
-      width: min(1040px, 100%);
+      width: min(1240px, 100%);
       margin: 0 auto;
     }
 
@@ -242,9 +251,62 @@
       box-shadow: var(--shadow-soft);
     }
 
-    .main {
+    .daily-section {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .mood-card,
+    .message-card {
+      padding: 22px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+    }
+
+    .mood-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mood-item label,
+    .message-item label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .message-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .save-hint {
+      color: var(--soft-muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
 
@@ -273,6 +335,7 @@
       font-size: 22px;
       background: linear-gradient(135deg, rgba(236, 111, 145, 0.11), rgba(255, 255, 255, 0.9));
       border: 1px solid rgba(236, 111, 145, 0.1);
+      flex: 0 0 auto;
     }
 
     .person-title h2 {
@@ -283,7 +346,7 @@
 
     .progress-wrap {
       text-align: right;
-      min-width: 92px;
+      min-width: 76px;
     }
 
     .progress-text {
@@ -294,7 +357,7 @@
     }
 
     .progress-bar {
-      width: 92px;
+      width: 76px;
       height: 8px;
       background: rgba(236, 111, 145, 0.1);
       border-radius: 999px;
@@ -311,24 +374,12 @@
 
     .add-row {
       display: grid;
-      grid-template-columns: 1fr 92px 82px;
+      grid-template-columns: 1fr 72px;
       gap: 10px;
       margin-bottom: 12px;
     }
 
     .todo-input { height: 46px; }
-
-    .priority-select {
-      height: 46px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: #fff;
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 700;
-      padding: 0 10px;
-      outline: none;
-    }
 
     .add-btn {
       border-radius: 16px;
@@ -386,13 +437,13 @@
 
     .todo-item {
       display: grid;
-      grid-template-columns: 34px 1fr 42px 38px;
-      align-items: center;
-      gap: 10px;
+      grid-template-columns: 34px 1fr 38px 36px;
+      align-items: start;
+      gap: 9px;
       background: rgba(255, 255, 255, 0.78);
       border: 1px solid rgba(15, 23, 42, 0.07);
       border-radius: 18px;
-      padding: 11px 10px;
+      padding: 11px 9px;
     }
 
     .todo-item.done { opacity: 0.72; }
@@ -406,6 +457,7 @@
       background: #fff;
       color: transparent;
       font-weight: 900;
+      margin-top: 1px;
     }
 
     .todo-item.done .check-btn {
@@ -414,9 +466,7 @@
       border-color: transparent;
     }
 
-    .todo-body {
-      min-width: 0;
-    }
+    .todo-body { min-width: 0; }
 
     .todo-text {
       font-size: 15px;
@@ -429,12 +479,75 @@
       color: var(--muted);
     }
 
+    .todo-note {
+      margin-top: 8px;
+      color: #4b5563;
+      font-size: 13px;
+      line-height: 1.55;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.04);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .checklist {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+
+    .checklist li {
+      display: grid;
+      grid-template-columns: 22px 1fr 22px;
+      align-items: center;
+      gap: 6px;
+      color: #4b5563;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .checklist-item-done .checklist-text {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .tiny-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--border-strong);
+      color: transparent;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 0;
+    }
+
+    .checklist-item-done .tiny-check {
+      background: var(--green);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .tiny-delete {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      background: rgba(239, 100, 100, 0.08);
+      color: var(--danger);
+      font-weight: 900;
+      padding: 0;
+    }
+
     .todo-meta {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
-      margin-top: 6px;
+      margin-top: 7px;
     }
 
     .badge {
@@ -460,6 +573,8 @@
       border-radius: 12px;
       font-size: 16px;
       font-weight: 900;
+      margin-top: 0;
+      padding: 0;
     }
 
     .pin-btn {
@@ -482,7 +597,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 9px;
+      flex-wrap: wrap;
     }
 
     .mini-btn {
@@ -550,6 +666,12 @@
       font-size: 13px;
     }
 
+    .power-line {
+      color: #4b5563;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
     .footer-actions {
       display: flex;
       align-items: center;
@@ -575,12 +697,17 @@
     .secondary-btn { color: var(--muted); }
     .logout-btn { color: var(--danger); }
 
+    @media (max-width: 1100px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 800px) {
       body { padding: 14px; }
-      .hero, .main { grid-template-columns: 1fr; }
-      .intro, .date-card, .person-card, .login-card { padding: 20px; }
+      .hero, .daily-section { grid-template-columns: 1fr; }
+      .mood-grid, .message-grid { grid-template-columns: 1fr; }
+      .intro, .date-card, .person-card, .login-card, .mood-card, .message-card { padding: 20px; }
       .footer { flex-direction: column; align-items: flex-start; }
-      .add-row { grid-template-columns: 1fr; }
+      .add-row { grid-template-columns: 1fr 76px; }
       .todo-item { grid-template-columns: 34px 1fr 36px 36px; gap: 8px; }
       .carry-row { align-items: flex-start; flex-direction: column; }
     }
@@ -604,7 +731,7 @@
     <section class="hero">
       <div class="panel intro">
         <h1>Our Daily Todo</h1>
-        <p class="subtitle">每天一起完成一点点。米一个列表，圈一个列表，重要的先做，没完成的可以顺延到明天。</p>
+        <p class="subtitle">每天一起完成一点点。米、圈、一起做，各自努力，也一起把日子过好。</p>
       </div>
 
       <div class="panel date-card">
@@ -624,6 +751,58 @@
       </div>
     </section>
 
+    <section class="daily-section">
+      <div class="panel mood-card">
+        <div class="section-title">
+          <h2>今日心情</h2>
+          <span class="save-hint" id="moodHint">自动保存</span>
+        </div>
+        <div class="mood-grid">
+          <div class="mood-item">
+            <label for="meMood">米今天感觉</label>
+            <select class="select" id="meMood">
+              <option value="">选择一个心情</option>
+              <option value="开心 😊">开心 😊</option>
+              <option value="平静 🌿">平静 🌿</option>
+              <option value="有点累 😴">有点累 😴</option>
+              <option value="压力大 🌧️">压力大 🌧️</option>
+              <option value="想摆烂 🫠">想摆烂 🫠</option>
+              <option value="充满力量 🔥">充满力量 🔥</option>
+            </select>
+          </div>
+          <div class="mood-item">
+            <label for="herMood">圈今天感觉</label>
+            <select class="select" id="herMood">
+              <option value="">选择一个心情</option>
+              <option value="开心 😊">开心 😊</option>
+              <option value="平静 🌿">平静 🌿</option>
+              <option value="有点累 😴">有点累 😴</option>
+              <option value="压力大 🌧️">压力大 🌧️</option>
+              <option value="想摆烂 🫠">想摆烂 🫠</option>
+              <option value="充满力量 🔥">充满力量 🔥</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel message-card">
+        <div class="section-title">
+          <h2>每日留言</h2>
+          <span class="save-hint" id="messageHint">自动保存</span>
+        </div>
+        <div class="message-grid">
+          <div class="message-item">
+            <label for="meMessage">米想说</label>
+            <textarea class="textarea" id="meMessage" placeholder="今天想留下点什么？"></textarea>
+          </div>
+          <div class="message-item">
+            <label for="herMessage">圈想说</label>
+            <textarea class="textarea" id="herMessage" placeholder="写一句话也很好。"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <main class="main">
       <section class="panel person-card">
         <div class="person-header">
@@ -638,10 +817,6 @@
         </div>
         <div class="add-row">
           <input class="input todo-input" id="meInput" placeholder="米今天要做什么？" />
-          <select class="priority-select" id="mePriority">
-            <option value="normal">普通</option>
-            <option value="important">重要</option>
-          </select>
           <button class="add-btn" id="meAdd">添加</button>
         </div>
         <div class="carry-row" id="meCarry" hidden></div>
@@ -662,20 +837,36 @@
         </div>
         <div class="add-row">
           <input class="input todo-input" id="herInput" placeholder="圈今天要做什么？" />
-          <select class="priority-select" id="herPriority">
-            <option value="normal">普通</option>
-            <option value="important">重要</option>
-          </select>
           <button class="add-btn" id="herAdd">添加</button>
         </div>
         <div class="carry-row" id="herCarry" hidden></div>
         <div class="encourage" id="herEncourage">圈今天全部完成啦，奖励甜甜圈 🍩</div>
         <div class="todo-list" id="herList"></div>
       </section>
+
+      <section class="panel person-card">
+        <div class="person-header">
+          <div class="person-title">
+            <div class="avatar">🤝</div>
+            <h2 id="togetherName">一起做</h2>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-text" id="togetherProgressText">0/0</div>
+            <div class="progress-bar"><div class="progress-inner" id="togetherProgressBar"></div></div>
+          </div>
+        </div>
+        <div class="add-row">
+          <input class="input todo-input" id="togetherInput" placeholder="今天一起做什么？" />
+          <button class="add-btn" id="togetherAdd">添加</button>
+        </div>
+        <div class="carry-row" id="togetherCarry" hidden></div>
+        <div class="encourage" id="togetherEncourage">今天一起做的也完成啦，默契加一 🤝</div>
+        <div class="todo-list" id="togetherList"></div>
+      </section>
     </main>
 
     <footer class="panel footer">
-      <span>小提示：可以把这个页面添加到手机桌面，每天像 App 一样打开。</span>
+      <span class="power-line" id="powerLine">认真生活的人，都会一点点变强。</span>
       <div class="footer-actions">
         <span class="user-email" id="userEmail"></span>
         <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
@@ -696,13 +887,25 @@
     };
 
     const COUPLE_ID = "our-daily-todo";
+    const PEOPLE = ["me", "her", "together"];
+    const PAGE_SIZE = 8;
 
     const PERSON_NAMES = {
       me: "米的待办",
-      her: "圈的待办"
+      her: "圈的待办",
+      together: "一起做"
     };
 
-    const PAGE_SIZE = 8;
+    const POWER_LINES = [
+      "认真生活的人，都会一点点变强。",
+      "慢慢来，今天完成一点也很了不起。",
+      "把小事做好，日子就会一点点变亮。",
+      "不用一下子很厉害，坚持下去就已经很厉害。",
+      "今天的努力，会在某一天悄悄奖励你。",
+      "先完成一件小事，状态就会回来。",
+      "两个人一起往前走，普通的一天也会发光。",
+      "别急，稳稳地做，答案会慢慢出现。"
+    ];
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
     import {
@@ -728,19 +931,12 @@
       db: null,
       user: null,
       unsubscribe: null,
+      saveTimer: null,
       selectedDate: getTodayString(),
-      data: {
-        me: [],
-        her: []
-      },
-      page: {
-        me: 1,
-        her: 1
-      },
-      previousIncomplete: {
-        me: [],
-        her: []
-      }
+      data: createEmptyStateData(),
+      page: { me: 1, her: 1, together: 1 },
+      previousIncomplete: { me: [], her: [], together: [] },
+      isApplyingRemote: false
     };
 
     const els = {
@@ -752,6 +948,7 @@
       authMessage: $("#authMessage"),
       userEmail: $("#userEmail"),
       logoutBtn: $("#logoutBtn"),
+      powerLine: $("#powerLine"),
       dayTitle: $("#dayTitle"),
       daySubtitle: $("#daySubtitle"),
       syncStatus: $("#syncStatus"),
@@ -760,22 +957,34 @@
       nextDay: $("#nextDay"),
       meName: $("#meName"),
       herName: $("#herName"),
+      togetherName: $("#togetherName"),
+      meMood: $("#meMood"),
+      herMood: $("#herMood"),
+      meMessage: $("#meMessage"),
+      herMessage: $("#herMessage"),
+      moodHint: $("#moodHint"),
+      messageHint: $("#messageHint"),
       meInput: $("#meInput"),
       herInput: $("#herInput"),
-      mePriority: $("#mePriority"),
-      herPriority: $("#herPriority"),
+      togetherInput: $("#togetherInput"),
       meAdd: $("#meAdd"),
       herAdd: $("#herAdd"),
+      togetherAdd: $("#togetherAdd"),
       meCarry: $("#meCarry"),
       herCarry: $("#herCarry"),
+      togetherCarry: $("#togetherCarry"),
       meEncourage: $("#meEncourage"),
       herEncourage: $("#herEncourage"),
+      togetherEncourage: $("#togetherEncourage"),
       meList: $("#meList"),
       herList: $("#herList"),
+      togetherList: $("#togetherList"),
       meProgressText: $("#meProgressText"),
       herProgressText: $("#herProgressText"),
+      togetherProgressText: $("#togetherProgressText"),
       meProgressBar: $("#meProgressBar"),
       herProgressBar: $("#herProgressBar"),
+      togetherProgressBar: $("#togetherProgressBar"),
       copyLinkBtn: $("#copyLinkBtn")
     };
 
@@ -784,7 +993,9 @@
     function init() {
       els.meName.textContent = PERSON_NAMES.me;
       els.herName.textContent = PERSON_NAMES.her;
+      els.togetherName.textContent = PERSON_NAMES.together;
       els.datePicker.value = state.selectedDate;
+      els.powerLine.textContent = getRandomPowerLine();
       bindEvents();
       initFirebase();
     }
@@ -827,9 +1038,17 @@
 
       els.meAdd.addEventListener("click", () => addTodo("me"));
       els.herAdd.addEventListener("click", () => addTodo("her"));
+      els.togetherAdd.addEventListener("click", () => addTodo("together"));
 
       els.meInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addTodo("me"); });
       els.herInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addTodo("her"); });
+      els.togetherInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addTodo("together"); });
+
+      els.meMood.addEventListener("change", () => updateMood("me", els.meMood.value));
+      els.herMood.addEventListener("change", () => updateMood("her", els.herMood.value));
+
+      els.meMessage.addEventListener("input", () => updateMessage("me", els.meMessage.value));
+      els.herMessage.addEventListener("input", () => updateMessage("her", els.herMessage.value));
 
       els.datePicker.addEventListener("change", (event) => loadDate(event.target.value));
       els.prevDay.addEventListener("click", () => changeDay(-1));
@@ -916,9 +1135,10 @@
           return;
         }
 
-        const cloudData = snapshot.data();
-        state.data = normalizeData(cloudData);
+        state.isApplyingRemote = true;
+        state.data = normalizeData(snapshot.data());
         render();
+        state.isApplyingRemote = false;
         setSyncStatus("已同步", "ok");
       }, (error) => {
         console.error(error);
@@ -927,7 +1147,7 @@
     }
 
     async function loadPreviousIncomplete() {
-      state.previousIncomplete = { me: [], her: [] };
+      state.previousIncomplete = { me: [], her: [], together: [] };
       if (!state.db || !state.user) return;
 
       const previousDate = addDays(state.selectedDate, -1);
@@ -937,8 +1157,9 @@
         if (!snapshot.exists()) return;
 
         const previousData = normalizeData(snapshot.data());
-        state.previousIncomplete.me = previousData.me.filter((todo) => !todo.done);
-        state.previousIncomplete.her = previousData.her.filter((todo) => !todo.done);
+        PEOPLE.forEach((person) => {
+          state.previousIncomplete[person] = previousData[person].filter((todo) => !todo.done);
+        });
       } catch (error) {
         console.error(error);
       }
@@ -967,9 +1188,21 @@
       }
     }
 
+    function scheduleSave(hintEl) {
+      if (state.isApplyingRemote) return;
+      if (hintEl) hintEl.textContent = "保存中...";
+      clearTimeout(state.saveTimer);
+      state.saveTimer = setTimeout(async () => {
+        await saveData();
+        if (hintEl) {
+          hintEl.textContent = "已保存";
+          setTimeout(() => { hintEl.textContent = "自动保存"; }, 900);
+        }
+      }, 500);
+    }
+
     function addTodo(person) {
-      const input = person === "me" ? els.meInput : els.herInput;
-      const prioritySelect = person === "me" ? els.mePriority : els.herPriority;
+      const input = getInput(person);
       const text = input.value.trim();
 
       if (!text) return;
@@ -978,15 +1211,16 @@
         id: createId(),
         text,
         done: false,
-        priority: prioritySelect.value || "normal",
+        priority: "normal",
         pinned: false,
+        note: "",
+        checklist: [],
         createdAt: new Date().toISOString(),
         createdBy: state.user ? state.user.email : "unknown"
       });
 
-      state.page[person] = prioritySelect.value === "important" ? 1 : getTotalPages(person);
+      state.page[person] = getTotalPages(person);
       input.value = "";
-      prioritySelect.value = "normal";
       render();
       saveData();
     }
@@ -1005,6 +1239,8 @@
         done: false,
         priority: todo.priority || "normal",
         pinned: Boolean(todo.pinned),
+        note: todo.note || "",
+        checklist: Array.isArray(todo.checklist) ? todo.checklist.map((item) => ({ ...item, done: false })) : [],
         carriedFrom: previousDate,
         carriedFromId: todo.id,
         createdAt: new Date().toISOString(),
@@ -1015,6 +1251,16 @@
       state.page[person] = 1;
       render();
       saveData();
+    }
+
+    function updateMood(person, value) {
+      state.data.mood[person] = value;
+      scheduleSave(els.moodHint);
+    }
+
+    function updateMessage(person, value) {
+      state.data.messages[person] = value;
+      scheduleSave(els.messageHint);
     }
 
     function toggleTodo(person, id) {
@@ -1056,6 +1302,72 @@
       saveData();
     }
 
+    function editNote(person, id) {
+      const todo = findTodo(person, id);
+      if (!todo) return;
+
+      const nextNote = prompt("备注", todo.note || "");
+      if (nextNote === null) return;
+
+      state.data[person] = state.data[person].map((item) => {
+        if (item.id !== id) return item;
+        return { ...item, note: nextNote.trim() };
+      });
+
+      render();
+      saveData();
+    }
+
+    function addChecklistItem(person, id) {
+      const text = prompt("添加小清单", "");
+      if (text === null || !text.trim()) return;
+
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== id) return todo;
+        const checklist = Array.isArray(todo.checklist) ? todo.checklist : [];
+        return {
+          ...todo,
+          checklist: checklist.concat({
+            id: createId(),
+            text: text.trim(),
+            done: false
+          })
+        };
+      });
+
+      render();
+      saveData();
+    }
+
+    function toggleChecklistItem(person, todoId, itemId) {
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== todoId) return todo;
+        return {
+          ...todo,
+          checklist: (todo.checklist || []).map((item) => {
+            if (item.id !== itemId) return item;
+            return { ...item, done: !Boolean(item.done) };
+          })
+        };
+      });
+
+      render();
+      saveData();
+    }
+
+    function deleteChecklistItem(person, todoId, itemId) {
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== todoId) return todo;
+        return {
+          ...todo,
+          checklist: (todo.checklist || []).filter((item) => item.id !== itemId)
+        };
+      });
+
+      render();
+      saveData();
+    }
+
     function deleteTodo(person, id) {
       state.data[person] = state.data[person].filter((todo) => todo.id !== id);
       state.page[person] = Math.min(state.page[person], getTotalPages(person));
@@ -1064,22 +1376,28 @@
     }
 
     function render() {
-      renderCarryRow("me");
-      renderCarryRow("her");
-      renderEncourage("me");
-      renderEncourage("her");
-      renderList("me", els.meList);
-      renderList("her", els.herList);
-      renderProgress("me");
-      renderProgress("her");
+      renderDailyFields();
+      PEOPLE.forEach((person) => {
+        renderCarryRow(person);
+        renderEncourage(person);
+        renderList(person, getListEl(person));
+        renderProgress(person);
+      });
+    }
+
+    function renderDailyFields() {
+      els.meMood.value = state.data.mood.me || "";
+      els.herMood.value = state.data.mood.her || "";
+      els.meMessage.value = state.data.messages.me || "";
+      els.herMessage.value = state.data.messages.her || "";
     }
 
     function renderCarryRow(person) {
-      const el = person === "me" ? els.meCarry : els.herCarry;
+      const el = getCarryEl(person);
       const previousTodos = state.previousIncomplete[person] || [];
       const existingCarryIds = new Set((state.data[person] || []).map((todo) => todo.carriedFromId).filter(Boolean));
       const count = previousTodos.filter((todo) => !existingCarryIds.has(todo.id)).length;
-      const name = person === "me" ? "米" : "圈";
+      const name = getShortName(person);
 
       if (count <= 0) {
         el.hidden = true;
@@ -1104,7 +1422,7 @@
 
     function renderEncourage(person) {
       const todos = state.data[person] || [];
-      const el = person === "me" ? els.meEncourage : els.herEncourage;
+      const el = getEncourageEl(person);
       const allDone = todos.length > 0 && todos.every((todo) => todo.done);
       el.style.display = allDone ? "block" : "none";
     }
@@ -1166,6 +1484,20 @@
           meta.appendChild(carryBadge);
         }
 
+        body.appendChild(text);
+        body.appendChild(meta);
+
+        if (todo.note) {
+          const note = document.createElement("div");
+          note.className = "todo-note";
+          note.textContent = todo.note;
+          body.appendChild(note);
+        }
+
+        if (Array.isArray(todo.checklist) && todo.checklist.length > 0) {
+          body.appendChild(renderChecklist(person, todo));
+        }
+
         const actions = document.createElement("div");
         actions.className = "todo-actions";
 
@@ -1175,8 +1507,18 @@
         priorityBtn.addEventListener("click", () => togglePriority(person, todo.id));
         actions.appendChild(priorityBtn);
 
-        body.appendChild(text);
-        body.appendChild(meta);
+        const noteBtn = document.createElement("button");
+        noteBtn.className = "mini-btn";
+        noteBtn.textContent = todo.note ? "改备注" : "备注";
+        noteBtn.addEventListener("click", () => editNote(person, todo.id));
+        actions.appendChild(noteBtn);
+
+        const checklistBtn = document.createElement("button");
+        checklistBtn.className = "mini-btn";
+        checklistBtn.textContent = "+小项";
+        checklistBtn.addEventListener("click", () => addChecklistItem(person, todo.id));
+        actions.appendChild(checklistBtn);
+
         body.appendChild(actions);
 
         const pinBtn = document.createElement("button");
@@ -1231,6 +1573,37 @@
       }
     }
 
+    function renderChecklist(person, todo) {
+      const list = document.createElement("ul");
+      list.className = "checklist";
+
+      todo.checklist.forEach((item) => {
+        const li = document.createElement("li");
+        li.className = item.done ? "checklist-item-done" : "";
+
+        const check = document.createElement("button");
+        check.className = "tiny-check";
+        check.textContent = "✓";
+        check.addEventListener("click", () => toggleChecklistItem(person, todo.id, item.id));
+
+        const text = document.createElement("span");
+        text.className = "checklist-text";
+        text.textContent = item.text;
+
+        const del = document.createElement("button");
+        del.className = "tiny-delete";
+        del.textContent = "×";
+        del.addEventListener("click", () => deleteChecklistItem(person, todo.id, item.id));
+
+        li.appendChild(check);
+        li.appendChild(text);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+
+      return list;
+    }
+
     function getSortedTodos(person) {
       const todos = state.data[person] || [];
       return [...todos].sort((a, b) => {
@@ -1253,8 +1626,8 @@
       const total = todos.length;
       const percent = total === 0 ? 0 : Math.round((done / total) * 100);
 
-      const textEl = person === "me" ? els.meProgressText : els.herProgressText;
-      const barEl = person === "me" ? els.meProgressBar : els.herProgressBar;
+      const textEl = getProgressTextEl(person);
+      const barEl = getProgressBarEl(person);
 
       textEl.textContent = done + "/" + total;
       barEl.style.width = percent + "%";
@@ -1288,10 +1661,19 @@
       return doc(state.db, "coupleTodos", COUPLE_ID, "days", dateString);
     }
 
-    function createEmptyDayData() {
+    function createEmptyStateData() {
       return {
         me: [],
         her: [],
+        together: [],
+        mood: { me: "", her: "" },
+        messages: { me: "", her: "" }
+      };
+    }
+
+    function createEmptyDayData() {
+      return {
+        ...createEmptyStateData(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         createdBy: state.user ? state.user.email : "unknown"
@@ -1299,21 +1681,45 @@
     }
 
     function normalizeData(data) {
-      const me = Array.isArray(data.me) ? data.me : [];
-      const her = Array.isArray(data.her) ? data.her : [];
+      const normalized = createEmptyStateData();
 
-      return {
-        me: me.map(normalizeTodo),
-        her: her.map(normalizeTodo)
+      PEOPLE.forEach((person) => {
+        normalized[person] = Array.isArray(data[person]) ? data[person].map(normalizeTodo) : [];
+      });
+
+      normalized.mood = {
+        me: data.mood && typeof data.mood.me === "string" ? data.mood.me : "",
+        her: data.mood && typeof data.mood.her === "string" ? data.mood.her : ""
       };
+
+      normalized.messages = {
+        me: data.messages && typeof data.messages.me === "string" ? data.messages.me : "",
+        her: data.messages && typeof data.messages.her === "string" ? data.messages.her : ""
+      };
+
+      return normalized;
     }
 
     function normalizeTodo(todo) {
       return {
         ...todo,
         priority: todo.priority === "important" ? "important" : "normal",
-        pinned: Boolean(todo.pinned)
+        pinned: Boolean(todo.pinned),
+        note: typeof todo.note === "string" ? todo.note : "",
+        checklist: Array.isArray(todo.checklist) ? todo.checklist.map(normalizeChecklistItem) : []
       };
+    }
+
+    function normalizeChecklistItem(item) {
+      return {
+        id: item.id || createId(),
+        text: typeof item.text === "string" ? item.text : "",
+        done: Boolean(item.done)
+      };
+    }
+
+    function findTodo(person, id) {
+      return (state.data[person] || []).find((todo) => todo.id === id);
     }
 
     function setSyncStatus(text, type) {
@@ -1336,8 +1742,53 @@
     }
 
     function resetPages() {
-      state.page.me = 1;
-      state.page.her = 1;
+      PEOPLE.forEach((person) => { state.page[person] = 1; });
+    }
+
+    function getInput(person) {
+      if (person === "me") return els.meInput;
+      if (person === "her") return els.herInput;
+      return els.togetherInput;
+    }
+
+    function getListEl(person) {
+      if (person === "me") return els.meList;
+      if (person === "her") return els.herList;
+      return els.togetherList;
+    }
+
+    function getCarryEl(person) {
+      if (person === "me") return els.meCarry;
+      if (person === "her") return els.herCarry;
+      return els.togetherCarry;
+    }
+
+    function getEncourageEl(person) {
+      if (person === "me") return els.meEncourage;
+      if (person === "her") return els.herEncourage;
+      return els.togetherEncourage;
+    }
+
+    function getProgressTextEl(person) {
+      if (person === "me") return els.meProgressText;
+      if (person === "her") return els.herProgressText;
+      return els.togetherProgressText;
+    }
+
+    function getProgressBarEl(person) {
+      if (person === "me") return els.meProgressBar;
+      if (person === "her") return els.herProgressBar;
+      return els.togetherProgressBar;
+    }
+
+    function getShortName(person) {
+      if (person === "me") return "米";
+      if (person === "her") return "圈";
+      return "一起做";
+    }
+
+    function getRandomPowerLine() {
+      return POWER_LINES[Math.floor(Math.random() * POWER_LINES.length)];
     }
 
     function createId() {
