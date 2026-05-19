@@ -306,8 +306,12 @@
 
     .main {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 18px;
+    }
+
+    .together-card {
+      grid-column: 1 / -1;
     }
 
     .person-card { padding: 22px; }
@@ -666,10 +670,40 @@
       font-size: 13px;
     }
 
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
     .power-line {
       color: #4b5563;
       font-weight: 800;
       line-height: 1.6;
+    }
+
+    .mood-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mood-inline label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mood-select {
+      width: 116px;
+      height: 38px;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .footer-actions {
@@ -703,9 +737,9 @@
 
     @media (max-width: 800px) {
       body { padding: 14px; }
-      .hero, .daily-section { grid-template-columns: 1fr; }
-      .mood-grid, .message-grid { grid-template-columns: 1fr; }
-      .intro, .date-card, .person-card, .login-card, .mood-card, .message-card { padding: 20px; }
+      .hero { grid-template-columns: 1fr; }
+      .mood-grid { grid-template-columns: 1fr; }
+      .intro, .date-card, .person-card, .login-card, .mood-card { padding: 20px; }
       .footer { flex-direction: column; align-items: flex-start; }
       .add-row { grid-template-columns: 1fr 76px; }
       .todo-item { grid-template-columns: 34px 1fr 36px 36px; gap: 8px; }
@@ -751,58 +785,6 @@
       </div>
     </section>
 
-    <section class="daily-section">
-      <div class="panel mood-card">
-        <div class="section-title">
-          <h2>今日心情</h2>
-          <span class="save-hint" id="moodHint">自动保存</span>
-        </div>
-        <div class="mood-grid">
-          <div class="mood-item">
-            <label for="meMood">米今天感觉</label>
-            <select class="select" id="meMood">
-              <option value="">选择一个心情</option>
-              <option value="开心 😊">开心 😊</option>
-              <option value="平静 🌿">平静 🌿</option>
-              <option value="有点累 😴">有点累 😴</option>
-              <option value="压力大 🌧️">压力大 🌧️</option>
-              <option value="想摆烂 🫠">想摆烂 🫠</option>
-              <option value="充满力量 🔥">充满力量 🔥</option>
-            </select>
-          </div>
-          <div class="mood-item">
-            <label for="herMood">圈今天感觉</label>
-            <select class="select" id="herMood">
-              <option value="">选择一个心情</option>
-              <option value="开心 😊">开心 😊</option>
-              <option value="平静 🌿">平静 🌿</option>
-              <option value="有点累 😴">有点累 😴</option>
-              <option value="压力大 🌧️">压力大 🌧️</option>
-              <option value="想摆烂 🫠">想摆烂 🫠</option>
-              <option value="充满力量 🔥">充满力量 🔥</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel message-card">
-        <div class="section-title">
-          <h2>每日留言</h2>
-          <span class="save-hint" id="messageHint">自动保存</span>
-        </div>
-        <div class="message-grid">
-          <div class="message-item">
-            <label for="meMessage">米想说</label>
-            <textarea class="textarea" id="meMessage" placeholder="今天想留下点什么？"></textarea>
-          </div>
-          <div class="message-item">
-            <label for="herMessage">圈想说</label>
-            <textarea class="textarea" id="herMessage" placeholder="写一句话也很好。"></textarea>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <main class="main">
       <section class="panel person-card">
         <div class="person-header">
@@ -844,7 +826,7 @@
         <div class="todo-list" id="herList"></div>
       </section>
 
-      <section class="panel person-card">
+      <section class="panel person-card together-card">
         <div class="person-header">
           <div class="person-title">
             <div class="avatar">🤝</div>
@@ -866,7 +848,32 @@
     </main>
 
     <footer class="panel footer">
-      <span class="power-line" id="powerLine">认真生活的人，都会一点点变强。</span>
+      <div class="footer-left">
+        <span class="power-line" id="powerLine">认真生活的人，都会一点点变强。</span>
+        <div class="mood-inline">
+          <label for="meMood">米</label>
+          <select class="select mood-select" id="meMood">
+            <option value="">心情</option>
+            <option value="开心 😊">开心 😊</option>
+            <option value="平静 🌿">平静 🌿</option>
+            <option value="有点累 😴">有点累 😴</option>
+            <option value="压力大 🌧️">压力大 🌧️</option>
+            <option value="想摆烂 🫠">想摆烂 🫠</option>
+            <option value="充满力量 🔥">充满力量 🔥</option>
+          </select>
+          <label for="herMood">圈</label>
+          <select class="select mood-select" id="herMood">
+            <option value="">心情</option>
+            <option value="开心 😊">开心 😊</option>
+            <option value="平静 🌿">平静 🌿</option>
+            <option value="有点累 😴">有点累 😴</option>
+            <option value="压力大 🌧️">压力大 🌧️</option>
+            <option value="想摆烂 🫠">想摆烂 🫠</option>
+            <option value="充满力量 🔥">充满力量 🔥</option>
+          </select>
+          <span class="save-hint" id="moodHint">自动保存</span>
+        </div>
+      </div>
       <div class="footer-actions">
         <span class="user-email" id="userEmail"></span>
         <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
@@ -960,10 +967,7 @@
       togetherName: $("#togetherName"),
       meMood: $("#meMood"),
       herMood: $("#herMood"),
-      meMessage: $("#meMessage"),
-      herMessage: $("#herMessage"),
       moodHint: $("#moodHint"),
-      messageHint: $("#messageHint"),
       meInput: $("#meInput"),
       herInput: $("#herInput"),
       togetherInput: $("#togetherInput"),
@@ -1047,8 +1051,6 @@
       els.meMood.addEventListener("change", () => updateMood("me", els.meMood.value));
       els.herMood.addEventListener("change", () => updateMood("her", els.herMood.value));
 
-      els.meMessage.addEventListener("input", () => updateMessage("me", els.meMessage.value));
-      els.herMessage.addEventListener("input", () => updateMessage("her", els.herMessage.value));
 
       els.datePicker.addEventListener("change", (event) => loadDate(event.target.value));
       els.prevDay.addEventListener("click", () => changeDay(-1));
@@ -1258,10 +1260,6 @@
       scheduleSave(els.moodHint);
     }
 
-    function updateMessage(person, value) {
-      state.data.messages[person] = value;
-      scheduleSave(els.messageHint);
-    }
 
     function toggleTodo(person, id) {
       state.data[person] = state.data[person].map((todo) => {
@@ -1388,8 +1386,6 @@
     function renderDailyFields() {
       els.meMood.value = state.data.mood.me || "";
       els.herMood.value = state.data.mood.her || "";
-      els.meMessage.value = state.data.messages.me || "";
-      els.herMessage.value = state.data.messages.her || "";
     }
 
     function renderCarryRow(person) {
@@ -1666,8 +1662,7 @@
         me: [],
         her: [],
         together: [],
-        mood: { me: "", her: "" },
-        messages: { me: "", her: "" }
+        mood: { me: "", her: "" }
       };
     }
 
@@ -1692,10 +1687,6 @@
         her: data.mood && typeof data.mood.her === "string" ? data.mood.her : ""
       };
 
-      normalized.messages = {
-        me: data.messages && typeof data.messages.me === "string" ? data.messages.me : "",
-        her: data.messages && typeof data.messages.her === "string" ? data.messages.her : ""
-      };
 
       return normalized;
     }
