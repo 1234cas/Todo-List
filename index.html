@@ -23,9 +23,7 @@
       --border-strong: rgba(15, 23, 42, 0.12);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -39,9 +37,7 @@
       padding: 22px;
     }
 
-    [hidden] {
-      display: none !important;
-    }
+    [hidden] { display: none !important; }
 
     .panel {
       background: var(--card);
@@ -51,26 +47,19 @@
       backdrop-filter: blur(10px);
     }
 
+    button, select {
+      font-family: inherit;
+    }
+
     button {
       border: none;
       cursor: pointer;
-      font-family: inherit;
       transition: 0.18s ease;
     }
 
-    button:hover {
-      transform: translateY(-1px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    button:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      transform: none;
-    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
     .auth-gate {
       min-height: calc(100vh - 44px);
@@ -259,9 +248,7 @@
       gap: 18px;
     }
 
-    .person-card {
-      padding: 22px;
-    }
+    .person-card { padding: 22px; }
 
     .person-header {
       display: flex;
@@ -324,13 +311,23 @@
 
     .add-row {
       display: grid;
-      grid-template-columns: 1fr 94px;
+      grid-template-columns: 1fr 92px 82px;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .todo-input {
+    .todo-input { height: 46px; }
+
+    .priority-select {
       height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      padding: 0 10px;
+      outline: none;
     }
 
     .add-btn {
@@ -339,6 +336,45 @@
       color: white;
       font-weight: 800;
       box-shadow: 0 10px 22px rgba(236, 111, 145, 0.2);
+    }
+
+    .carry-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      background: rgba(124, 156, 255, 0.08);
+      border: 1px solid rgba(124, 156, 255, 0.15);
+      color: #526188;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .carry-btn {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid rgba(124, 156, 255, 0.22);
+      color: #526188;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .encourage {
+      display: none;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(85, 185, 135, 0.13), rgba(236, 111, 145, 0.09));
+      border: 1px solid rgba(85, 185, 135, 0.16);
+      color: #2f7f59;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.5;
     }
 
     .todo-list {
@@ -350,7 +386,7 @@
 
     .todo-item {
       display: grid;
-      grid-template-columns: 34px 1fr 38px;
+      grid-template-columns: 34px 1fr 42px 38px;
       align-items: center;
       gap: 10px;
       background: rgba(255, 255, 255, 0.78);
@@ -359,9 +395,8 @@
       padding: 11px 10px;
     }
 
-    .todo-item.done {
-      opacity: 0.72;
-    }
+    .todo-item.done { opacity: 0.72; }
+    .todo-item.pinned { border-color: rgba(236, 111, 145, 0.22); background: rgba(255, 255, 255, 0.92); }
 
     .check-btn {
       width: 30px;
@@ -379,6 +414,10 @@
       border-color: transparent;
     }
 
+    .todo-body {
+      min-width: 0;
+    }
+
     .todo-text {
       font-size: 15px;
       line-height: 1.45;
@@ -390,14 +429,71 @@
       color: var(--muted);
     }
 
+    .todo-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .badge-important { background: rgba(236, 111, 145, 0.12); color: #c64d70; }
+    .badge-normal { background: rgba(15, 23, 42, 0.06); color: var(--muted); }
+    .badge-pin { background: rgba(255, 200, 87, 0.22); color: #9a6a00; }
+    .badge-carry { background: rgba(124, 156, 255, 0.13); color: #526188; }
+
+    .pin-btn,
     .delete-btn {
       width: 34px;
       height: 34px;
       border-radius: 12px;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .pin-btn {
+      background: rgba(255, 200, 87, 0.12);
+      color: #a06c00;
+    }
+
+    .pin-btn.active {
+      background: rgba(255, 200, 87, 0.26);
+      color: #8a5a00;
+    }
+
+    .delete-btn {
       background: rgba(239, 100, 100, 0.1);
       color: var(--danger);
       font-size: 18px;
-      font-weight: 900;
+    }
+
+    .todo-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .mini-btn {
+      height: 26px;
+      border-radius: 999px;
+      padding: 0 9px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
     }
 
     .empty {
@@ -409,6 +505,38 @@
       text-align: center;
       line-height: 1.7;
       font-size: 14px;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 4px;
+      padding-top: 8px;
+    }
+
+    .page-btn {
+      min-width: 38px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border-strong);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .page-btn:disabled { opacity: 0.38; }
+
+    .page-info {
+      min-width: 74px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .footer {
@@ -444,39 +572,17 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
     }
 
-    .secondary-btn {
-      color: var(--muted);
-    }
-
-    .logout-btn {
-      color: var(--danger);
-    }
+    .secondary-btn { color: var(--muted); }
+    .logout-btn { color: var(--danger); }
 
     @media (max-width: 800px) {
-      body {
-        padding: 14px;
-      }
-
-      .hero,
-      .main {
-        grid-template-columns: 1fr;
-      }
-
-      .intro,
-      .date-card,
-      .person-card,
-      .login-card {
-        padding: 20px;
-      }
-
-      .footer {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .add-row {
-        grid-template-columns: 1fr 82px;
-      }
+      body { padding: 14px; }
+      .hero, .main { grid-template-columns: 1fr; }
+      .intro, .date-card, .person-card, .login-card { padding: 20px; }
+      .footer { flex-direction: column; align-items: flex-start; }
+      .add-row { grid-template-columns: 1fr; }
+      .todo-item { grid-template-columns: 34px 1fr 36px 36px; gap: 8px; }
+      .carry-row { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -484,7 +590,7 @@
   <section class="auth-gate" id="authGate">
     <div class="panel login-card">
       <h1>Our Daily Todo</h1>
-      <p>这是你们两个人的每日待办清单。登录后才能查看和修改数据。</p>
+      <p>这是米和圈的每日待办清单。登录后才能查看和修改数据。</p>
       <div class="login-form">
         <input class="input" id="loginEmail" type="email" autocomplete="email" placeholder="邮箱" />
         <input class="input" id="loginPassword" type="password" autocomplete="current-password" placeholder="密码" />
@@ -498,7 +604,7 @@
     <section class="hero">
       <div class="panel intro">
         <h1>Our Daily Todo</h1>
-        <p class="subtitle">每天一起完成一点点。米一个列表，圈一个列表，完成后自动同步。</p>
+        <p class="subtitle">每天一起完成一点点。米一个列表，圈一个列表，重要的先做，没完成的可以顺延到明天。</p>
       </div>
 
       <div class="panel date-card">
@@ -532,8 +638,14 @@
         </div>
         <div class="add-row">
           <input class="input todo-input" id="meInput" placeholder="米今天要做什么？" />
+          <select class="priority-select" id="mePriority">
+            <option value="normal">普通</option>
+            <option value="important">重要</option>
+          </select>
           <button class="add-btn" id="meAdd">添加</button>
         </div>
+        <div class="carry-row" id="meCarry" hidden></div>
+        <div class="encourage" id="meEncourage">米今天全部完成啦，很棒 🧸</div>
         <div class="todo-list" id="meList"></div>
       </section>
 
@@ -550,8 +662,14 @@
         </div>
         <div class="add-row">
           <input class="input todo-input" id="herInput" placeholder="圈今天要做什么？" />
+          <select class="priority-select" id="herPriority">
+            <option value="normal">普通</option>
+            <option value="important">重要</option>
+          </select>
           <button class="add-btn" id="herAdd">添加</button>
         </div>
+        <div class="carry-row" id="herCarry" hidden></div>
+        <div class="encourage" id="herEncourage">圈今天全部完成啦，奖励甜甜圈 🍩</div>
         <div class="todo-list" id="herList"></div>
       </section>
     </main>
@@ -567,15 +685,15 @@
   </div>
 
   <script type="module">
-const firebaseConfig = {
-  apiKey: "AIzaSyDvWq8Zyeyman426znZoaWxZUrpzzKUkZk",
-  authDomain: "todo-list-678cb.firebaseapp.com",
-  projectId: "todo-list-678cb",
-  storageBucket: "todo-list-678cb.firebasestorage.app",
-  messagingSenderId: "938956444065",
-  appId: "1:938956444065:web:52a731e1b9e4d34d35fbe0",
-  measurementId: "G-JTK8DJV93X"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyDvWq8Zyeyman426znZoaWxZUrpzzKUkZk",
+      authDomain: "todo-list-678cb.firebaseapp.com",
+      projectId: "todo-list-678cb",
+      storageBucket: "todo-list-678cb.firebasestorage.app",
+      messagingSenderId: "938956444065",
+      appId: "1:938956444065:web:52a731e1b9e4d34d35fbe0",
+      measurementId: "G-JTK8DJV93X"
+    };
 
     const COUPLE_ID = "our-daily-todo";
 
@@ -583,6 +701,8 @@ const firebaseConfig = {
       me: "米的待办",
       her: "圈的待办"
     };
+
+    const PAGE_SIZE = 8;
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
     import {
@@ -596,7 +716,8 @@ const firebaseConfig = {
       doc,
       onSnapshot,
       setDoc,
-      updateDoc
+      updateDoc,
+      getDoc
     } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
     const $ = (selector) => document.querySelector(selector);
@@ -609,6 +730,14 @@ const firebaseConfig = {
       unsubscribe: null,
       selectedDate: getTodayString(),
       data: {
+        me: [],
+        her: []
+      },
+      page: {
+        me: 1,
+        her: 1
+      },
+      previousIncomplete: {
         me: [],
         her: []
       }
@@ -633,8 +762,14 @@ const firebaseConfig = {
       herName: $("#herName"),
       meInput: $("#meInput"),
       herInput: $("#herInput"),
+      mePriority: $("#mePriority"),
+      herPriority: $("#herPriority"),
       meAdd: $("#meAdd"),
       herAdd: $("#herAdd"),
+      meCarry: $("#meCarry"),
+      herCarry: $("#herCarry"),
+      meEncourage: $("#meEncourage"),
+      herEncourage: $("#herEncourage"),
       meList: $("#meList"),
       herList: $("#herList"),
       meProgressText: $("#meProgressText"),
@@ -656,14 +791,6 @@ const firebaseConfig = {
 
     function initFirebase() {
       try {
-        const hasConfig = firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("替换成");
-
-        if (!hasConfig) {
-          showLogin();
-          els.authMessage.textContent = "先把 Firebase 提供的 firebaseConfig 复制到代码里。";
-          return;
-        }
-
         state.app = initializeApp(firebaseConfig);
         state.auth = getAuth(state.app);
         state.db = getFirestore(state.app);
@@ -687,14 +814,8 @@ const firebaseConfig = {
 
     function bindEvents() {
       els.loginBtn.addEventListener("click", login);
-
-      els.loginEmail.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") login();
-      });
-
-      els.loginPassword.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") login();
-      });
+      els.loginEmail.addEventListener("keydown", (event) => { if (event.key === "Enter") login(); });
+      els.loginPassword.addEventListener("keydown", (event) => { if (event.key === "Enter") login(); });
 
       els.logoutBtn.addEventListener("click", async () => {
         if (state.unsubscribe) {
@@ -707,18 +828,10 @@ const firebaseConfig = {
       els.meAdd.addEventListener("click", () => addTodo("me"));
       els.herAdd.addEventListener("click", () => addTodo("her"));
 
-      els.meInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") addTodo("me");
-      });
+      els.meInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addTodo("me"); });
+      els.herInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addTodo("her"); });
 
-      els.herInput.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") addTodo("her");
-      });
-
-      els.datePicker.addEventListener("change", (event) => {
-        loadDate(event.target.value);
-      });
-
+      els.datePicker.addEventListener("change", (event) => loadDate(event.target.value));
       els.prevDay.addEventListener("click", () => changeDay(-1));
       els.nextDay.addEventListener("click", () => changeDay(1));
 
@@ -727,9 +840,7 @@ const firebaseConfig = {
         url.searchParams.set("date", state.selectedDate);
         await navigator.clipboard.writeText(url.toString());
         els.copyLinkBtn.textContent = "已复制";
-        setTimeout(() => {
-          els.copyLinkBtn.textContent = "复制今日链接";
-        }, 1200);
+        setTimeout(() => { els.copyLinkBtn.textContent = "复制今日链接"; }, 1200);
       });
     }
 
@@ -774,7 +885,7 @@ const firebaseConfig = {
       setSyncStatus("云同步已连接", "ok");
     }
 
-    function loadDate(dateString) {
+    async function loadDate(dateString) {
       const urlDate = new URLSearchParams(window.location.search).get("date");
       if (urlDate && isValidDateString(urlDate) && state.selectedDate === getTodayString()) {
         dateString = urlDate;
@@ -783,19 +894,21 @@ const firebaseConfig = {
       state.selectedDate = dateString;
       els.datePicker.value = dateString;
       renderDateTitle();
+      resetPages();
 
       if (state.unsubscribe) {
         state.unsubscribe();
         state.unsubscribe = null;
       }
 
+      await loadPreviousIncomplete();
       listenCloudData();
     }
 
     function listenCloudData() {
       if (!state.db || !state.user) return;
 
-      const ref = getDayDocRef();
+      const ref = getDayDocRef(state.selectedDate);
       state.unsubscribe = onSnapshot(ref, async (snapshot) => {
         if (!snapshot.exists()) {
           const initialData = createEmptyDayData();
@@ -813,6 +926,24 @@ const firebaseConfig = {
       });
     }
 
+    async function loadPreviousIncomplete() {
+      state.previousIncomplete = { me: [], her: [] };
+      if (!state.db || !state.user) return;
+
+      const previousDate = addDays(state.selectedDate, -1);
+
+      try {
+        const snapshot = await getDoc(getDayDocRef(previousDate));
+        if (!snapshot.exists()) return;
+
+        const previousData = normalizeData(snapshot.data());
+        state.previousIncomplete.me = previousData.me.filter((todo) => !todo.done);
+        state.previousIncomplete.her = previousData.her.filter((todo) => !todo.done);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function saveData() {
       if (!state.db || !state.user) return;
 
@@ -823,11 +954,11 @@ const firebaseConfig = {
       };
 
       try {
-        await updateDoc(getDayDocRef(), payload);
+        await updateDoc(getDayDocRef(state.selectedDate), payload);
         setSyncStatus("已同步", "ok");
       } catch (error) {
         try {
-          await setDoc(getDayDocRef(), payload);
+          await setDoc(getDayDocRef(state.selectedDate), payload);
           setSyncStatus("已同步", "ok");
         } catch (finalError) {
           console.error(finalError);
@@ -838,19 +969,50 @@ const firebaseConfig = {
 
     function addTodo(person) {
       const input = person === "me" ? els.meInput : els.herInput;
+      const prioritySelect = person === "me" ? els.mePriority : els.herPriority;
       const text = input.value.trim();
 
       if (!text) return;
 
       state.data[person].push({
-        id: Date.now() + "-" + Math.random().toString(16).slice(2),
+        id: createId(),
         text,
         done: false,
+        priority: prioritySelect.value || "normal",
+        pinned: false,
         createdAt: new Date().toISOString(),
         createdBy: state.user ? state.user.email : "unknown"
       });
 
+      state.page[person] = prioritySelect.value === "important" ? 1 : getTotalPages(person);
       input.value = "";
+      prioritySelect.value = "normal";
+      render();
+      saveData();
+    }
+
+    function carryTomorrow(person) {
+      const previousTodos = state.previousIncomplete[person] || [];
+      const existingCarryIds = new Set((state.data[person] || []).map((todo) => todo.carriedFromId).filter(Boolean));
+      const todosToCarry = previousTodos.filter((todo) => !existingCarryIds.has(todo.id));
+
+      if (todosToCarry.length === 0) return;
+
+      const previousDate = addDays(state.selectedDate, -1);
+      const carriedTodos = todosToCarry.map((todo) => ({
+        id: createId(),
+        text: todo.text,
+        done: false,
+        priority: todo.priority || "normal",
+        pinned: Boolean(todo.pinned),
+        carriedFrom: previousDate,
+        carriedFromId: todo.id,
+        createdAt: new Date().toISOString(),
+        createdBy: state.user ? state.user.email : "unknown"
+      }));
+
+      state.data[person] = state.data[person].concat(carriedTodos);
+      state.page[person] = 1;
       render();
       saveData();
     }
@@ -871,35 +1033,103 @@ const firebaseConfig = {
       saveData();
     }
 
-    function deleteTodo(person, id) {
-      const ok = confirm("确定要删除这条待办吗？");
-      if (!ok) return;
+    function togglePin(person, id) {
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== id) return todo;
+        return { ...todo, pinned: !Boolean(todo.pinned) };
+      });
 
+      state.page[person] = 1;
+      render();
+      saveData();
+    }
+
+    function togglePriority(person, id) {
+      state.data[person] = state.data[person].map((todo) => {
+        if (todo.id !== id) return todo;
+        const nextPriority = todo.priority === "important" ? "normal" : "important";
+        return { ...todo, priority: nextPriority };
+      });
+
+      state.page[person] = 1;
+      render();
+      saveData();
+    }
+
+    function deleteTodo(person, id) {
       state.data[person] = state.data[person].filter((todo) => todo.id !== id);
+      state.page[person] = Math.min(state.page[person], getTotalPages(person));
       render();
       saveData();
     }
 
     function render() {
+      renderCarryRow("me");
+      renderCarryRow("her");
+      renderEncourage("me");
+      renderEncourage("her");
       renderList("me", els.meList);
       renderList("her", els.herList);
       renderProgress("me");
       renderProgress("her");
     }
 
-    function renderList(person, container) {
-      const todos = state.data[person] || [];
+    function renderCarryRow(person) {
+      const el = person === "me" ? els.meCarry : els.herCarry;
+      const previousTodos = state.previousIncomplete[person] || [];
+      const existingCarryIds = new Set((state.data[person] || []).map((todo) => todo.carriedFromId).filter(Boolean));
+      const count = previousTodos.filter((todo) => !existingCarryIds.has(todo.id)).length;
+      const name = person === "me" ? "米" : "圈";
 
-      if (todos.length === 0) {
-        container.innerHTML = "<div class='empty'>今天还没有待办。<br />先写下一件小事吧。</div>";
+      if (count <= 0) {
+        el.hidden = true;
+        el.innerHTML = "";
         return;
       }
 
+      el.hidden = false;
+      el.innerHTML = "";
+
+      const text = document.createElement("span");
+      text.textContent = name + "昨天有 " + count + " 条未完成，可以顺延到今天。";
+
+      const button = document.createElement("button");
+      button.className = "carry-btn";
+      button.textContent = "顺延到今天";
+      button.addEventListener("click", () => carryTomorrow(person));
+
+      el.appendChild(text);
+      el.appendChild(button);
+    }
+
+    function renderEncourage(person) {
+      const todos = state.data[person] || [];
+      const el = person === "me" ? els.meEncourage : els.herEncourage;
+      const allDone = todos.length > 0 && todos.every((todo) => todo.done);
+      el.style.display = allDone ? "block" : "none";
+    }
+
+    function renderList(person, container) {
+      const todos = getSortedTodos(person);
+
+      if (todos.length === 0) {
+        container.innerHTML = "<div class='empty'>今天还没有待办。<br />先写下一件小事吧。</div>";
+        state.page[person] = 1;
+        return;
+      }
+
+      const totalPages = getTotalPages(person);
+      state.page[person] = Math.min(Math.max(state.page[person] || 1, 1), totalPages);
+
+      const currentPage = state.page[person];
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const pageTodos = todos.slice(startIndex, startIndex + PAGE_SIZE);
+
       container.innerHTML = "";
 
-      todos.forEach((todo) => {
+      pageTodos.forEach((todo) => {
         const item = document.createElement("div");
-        item.className = "todo-item" + (todo.done ? " done" : "");
+        item.className = "todo-item" + (todo.done ? " done" : "") + (todo.pinned ? " pinned" : "");
 
         const checkBtn = document.createElement("button");
         checkBtn.className = "check-btn";
@@ -907,9 +1137,53 @@ const firebaseConfig = {
         checkBtn.title = todo.done ? "标记为未完成" : "标记为完成";
         checkBtn.addEventListener("click", () => toggleTodo(person, todo.id));
 
+        const body = document.createElement("div");
+        body.className = "todo-body";
+
         const text = document.createElement("div");
         text.className = "todo-text";
         text.textContent = todo.text;
+
+        const meta = document.createElement("div");
+        meta.className = "todo-meta";
+
+        const priorityBadge = document.createElement("span");
+        priorityBadge.className = "badge " + (todo.priority === "important" ? "badge-important" : "badge-normal");
+        priorityBadge.textContent = todo.priority === "important" ? "重要" : "普通";
+        meta.appendChild(priorityBadge);
+
+        if (todo.pinned) {
+          const pinBadge = document.createElement("span");
+          pinBadge.className = "badge badge-pin";
+          pinBadge.textContent = "置顶";
+          meta.appendChild(pinBadge);
+        }
+
+        if (todo.carriedFrom) {
+          const carryBadge = document.createElement("span");
+          carryBadge.className = "badge badge-carry";
+          carryBadge.textContent = "顺延";
+          meta.appendChild(carryBadge);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "todo-actions";
+
+        const priorityBtn = document.createElement("button");
+        priorityBtn.className = "mini-btn";
+        priorityBtn.textContent = todo.priority === "important" ? "改普通" : "设重要";
+        priorityBtn.addEventListener("click", () => togglePriority(person, todo.id));
+        actions.appendChild(priorityBtn);
+
+        body.appendChild(text);
+        body.appendChild(meta);
+        body.appendChild(actions);
+
+        const pinBtn = document.createElement("button");
+        pinBtn.className = "pin-btn" + (todo.pinned ? " active" : "");
+        pinBtn.textContent = "📌";
+        pinBtn.title = todo.pinned ? "取消置顶" : "置顶";
+        pinBtn.addEventListener("click", () => togglePin(person, todo.id));
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
@@ -918,10 +1192,59 @@ const firebaseConfig = {
         deleteBtn.addEventListener("click", () => deleteTodo(person, todo.id));
 
         item.appendChild(checkBtn);
-        item.appendChild(text);
+        item.appendChild(body);
+        item.appendChild(pinBtn);
         item.appendChild(deleteBtn);
         container.appendChild(item);
       });
+
+      if (totalPages > 1) {
+        const pagination = document.createElement("div");
+        pagination.className = "pagination";
+
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "page-btn";
+        prevBtn.textContent = "上一页";
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener("click", () => {
+          state.page[person] = Math.max(1, state.page[person] - 1);
+          render();
+        });
+
+        const pageInfo = document.createElement("div");
+        pageInfo.className = "page-info";
+        pageInfo.textContent = currentPage + " / " + totalPages;
+
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "page-btn";
+        nextBtn.textContent = "下一页";
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener("click", () => {
+          state.page[person] = Math.min(totalPages, state.page[person] + 1);
+          render();
+        });
+
+        pagination.appendChild(prevBtn);
+        pagination.appendChild(pageInfo);
+        pagination.appendChild(nextBtn);
+        container.appendChild(pagination);
+      }
+    }
+
+    function getSortedTodos(person) {
+      const todos = state.data[person] || [];
+      return [...todos].sort((a, b) => {
+        if (Boolean(a.pinned) !== Boolean(b.pinned)) return Boolean(b.pinned) - Boolean(a.pinned);
+        if ((a.priority || "normal") !== (b.priority || "normal")) {
+          return (b.priority === "important" ? 1 : 0) - (a.priority === "important" ? 1 : 0);
+        }
+        return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+      });
+    }
+
+    function getTotalPages(person) {
+      const todos = getSortedTodos(person);
+      return Math.max(1, Math.ceil(todos.length / PAGE_SIZE));
     }
 
     function renderProgress(person) {
@@ -961,8 +1284,8 @@ const firebaseConfig = {
       loadDate(addDays(state.selectedDate, offset));
     }
 
-    function getDayDocRef() {
-      return doc(state.db, "coupleTodos", COUPLE_ID, "days", state.selectedDate);
+    function getDayDocRef(dateString) {
+      return doc(state.db, "coupleTodos", COUPLE_ID, "days", dateString);
     }
 
     function createEmptyDayData() {
@@ -976,9 +1299,20 @@ const firebaseConfig = {
     }
 
     function normalizeData(data) {
+      const me = Array.isArray(data.me) ? data.me : [];
+      const her = Array.isArray(data.her) ? data.her : [];
+
       return {
-        me: Array.isArray(data.me) ? data.me : [],
-        her: Array.isArray(data.her) ? data.her : []
+        me: me.map(normalizeTodo),
+        her: her.map(normalizeTodo)
+      };
+    }
+
+    function normalizeTodo(todo) {
+      return {
+        ...todo,
+        priority: todo.priority === "important" ? "important" : "normal",
+        pinned: Boolean(todo.pinned)
       };
     }
 
@@ -999,6 +1333,15 @@ const firebaseConfig = {
         els.syncStatus.style.background = "rgba(239, 100, 100, 0.12)";
         els.syncStatus.style.color = "#b84545";
       }
+    }
+
+    function resetPages() {
+      state.page.me = 1;
+      state.page.her = 1;
+    }
+
+    function createId() {
+      return Date.now() + "-" + Math.random().toString(16).slice(2);
     }
 
     function getTodayString() {
