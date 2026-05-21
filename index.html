@@ -799,7 +799,7 @@
     <section class="hero">
       <div class="panel intro">
         <h1>Our Daily Todo</h1>
-        <p class="subtitle">每天一起完成一点点。米、圈、一起做，各自努力，也一起把日子过好。</p>
+        <p class="subtitle">每天一起完成一点点。米、圈、一起做，各自努力，没完成的会自动顺延到下一天。</p>
         <div class="account-row">
           <span class="user-email" id="userEmail"></span>
           <button class="secondary-btn" id="copyLinkBtn">复制今日链接</button>
@@ -983,6 +983,7 @@
       unsubscribe: null,
       saveTimer: null,
       modalResolve: null,
+      hasLoadedDay: false,
       selectedDate: getTodayString(),
       data: createEmptyStateData(),
       page: { me: 1, her: 1, together: 1 },
@@ -1174,6 +1175,7 @@
       els.datePicker.value = dateString;
       renderDateTitle();
       resetPages();
+      state.hasLoadedDay = false;
 
       if (state.unsubscribe) {
         state.unsubscribe();
@@ -1190,16 +1192,29 @@
       const ref = getDayDocRef(state.selectedDate);
       state.unsubscribe = onSnapshot(ref, async (snapshot) => {
         if (!snapshot.exists()) {
-          const initialData = createEmptyDayData();
-          await setDoc(ref, initialData);
+          state.isApplyingRemote = true;
+          state.data = createEmptyStateData();
+          state.hasLoadedDay = true;
+          const carriedCount = shouldAutoCarry() ? autoCarryIncomplete() : 0;
+          render();
+          state.isApplyingRemote = false;
+          setSyncStatus(carriedCount > 0 ? "已自动顺延" : "当天暂无数据", carriedCount > 0 ? "ok" : "warn");
+          if (carriedCount > 0) {
+            await saveData(PEOPLE);
+          }
           return;
         }
 
         state.isApplyingRemote = true;
         state.data = normalizeData(snapshot.data());
+        state.hasLoadedDay = true;
+        const carriedCount = shouldAutoCarry() ? autoCarryIncomplete() : 0;
         render();
         state.isApplyingRemote = false;
-        setSyncStatus("已同步", "ok");
+        setSyncStatus(carriedCount > 0 ? "已自动顺延" : "已同步", "ok");
+        if (carriedCount > 0) {
+          await saveData();
+        }
       }, (error) => {
         console.error(error);
         setSyncStatus("同步失败", "error");
@@ -1225,21 +1240,34 @@
       }
     }
 
-    async function saveData() {
+    async function saveData(fieldsToSave = null) {
       if (!state.db || !state.user) return;
+      if (!state.hasLoadedDay) {
+        setSyncStatus("数据加载中，暂未保存", "warn");
+        return;
+      }
 
       const payload = {
-        ...state.data,
         updatedAt: new Date().toISOString(),
         updatedBy: state.user.email || state.user.uid
       };
+
+      if (Array.isArray(fieldsToSave) && fieldsToSave.length > 0) {
+        fieldsToSave.forEach((field) => {
+          if (Object.prototype.hasOwnProperty.call(state.data, field)) {
+            payload[field] = state.data[field];
+          }
+        });
+      } else {
+        Object.assign(payload, state.data);
+      }
 
       try {
         await updateDoc(getDayDocRef(state.selectedDate), payload);
         setSyncStatus("已同步", "ok");
       } catch (error) {
         try {
-          await setDoc(getDayDocRef(state.selectedDate), payload);
+          await setDoc(getDayDocRef(state.selectedDate), payload, { merge: true });
           setSyncStatus("已同步", "ok");
         } catch (finalError) {
           console.error(finalError);
@@ -1248,12 +1276,12 @@
       }
     }
 
-    function scheduleSave(hintEl) {
+    function scheduleSave(hintEl, fieldsToSave = null) {
       if (state.isApplyingRemote) return;
       if (hintEl) hintEl.textContent = "保存中...";
       clearTimeout(state.saveTimer);
       state.saveTimer = setTimeout(async () => {
-        await saveData();
+        await saveData(fieldsToSave);
         if (hintEl) {
           hintEl.textContent = "已保存";
           setTimeout(() => { hintEl.textContent = "自动保存"; }, 900);
@@ -1281,7 +1309,50 @@
       state.page[person] = getTotalPages(person);
       input.value = "";
       render();
-      saveData();
+      saveData([person]);
+    }
+
+    function shouldAutoCarry() {
+      return state.selectedDate === getTodayString();
+    }
+
+    function autoCarryIncomplete() {
+      let carriedCount = 0;
+      const previousDate = addDays(state.selectedDate, -1);
+
+      PEOPLE.forEach((person) => {
+        const previousTodos = state.previousIncomplete[person] || [];
+        const existingCarryIds = new Set(
+          (state.data[person] || [])
+            .map((todo) => todo.carriedFromId)
+            .filter(Boolean)
+        );
+
+        const todosToCarry = previousTodos.filter((todo) => !existingCarryIds.has(todo.id));
+        if (todosToCarry.length === 0) return;
+
+        const carriedTodos = todosToCarry.map((todo) => ({
+          id: createId(),
+          text: todo.text,
+          done: false,
+          pinned: Boolean(todo.pinned),
+          note: todo.note || "",
+          checklist: Array.isArray(todo.checklist)
+            ? todo.checklist.map((item) => ({ ...item, done: false }))
+            : [],
+          carriedFrom: previousDate,
+          carriedFromId: todo.id,
+          autoCarried: true,
+          createdAt: new Date().toISOString(),
+          createdBy: state.user ? state.user.email : "unknown"
+        }));
+
+        state.data[person] = state.data[person].concat(carriedTodos);
+        state.page[person] = 1;
+        carriedCount += carriedTodos.length;
+      });
+
+      return carriedCount;
     }
 
     function carryTomorrow(person) {
@@ -1308,12 +1379,12 @@
       state.data[person] = state.data[person].concat(carriedTodos);
       state.page[person] = 1;
       render();
-      saveData();
+      saveData([person]);
     }
 
     function updateMood(person, value) {
       state.data.mood[person] = value;
-      scheduleSave(els.moodHint);
+      scheduleSave(els.moodHint, ["mood"]);
     }
 
     function toggleTodo(person, id) {
@@ -1329,7 +1400,7 @@
       });
 
       render();
-      saveData();
+      saveData([person]);
     }
 
     function togglePin(person, id) {
@@ -1340,7 +1411,7 @@
 
       state.page[person] = 1;
       render();
-      saveData();
+      saveData([person]);
     }
 
     async function editNote(person, id) {
@@ -1363,7 +1434,7 @@
       });
 
       render();
-      saveData();
+      saveData([person]);
     }
 
     async function addChecklistItem(person, id) {
@@ -1391,7 +1462,7 @@
       });
 
       render();
-      saveData();
+      saveData([person]);
     }
 
     function toggleChecklistItem(person, todoId, itemId) {
@@ -1407,7 +1478,7 @@
       });
 
       render();
-      saveData();
+      saveData([person]);
     }
 
     function deleteChecklistItem(person, todoId, itemId) {
@@ -1420,14 +1491,14 @@
       });
 
       render();
-      saveData();
+      saveData([person]);
     }
 
     function deleteTodo(person, id) {
       state.data[person] = state.data[person].filter((todo) => todo.id !== id);
       state.page[person] = Math.min(state.page[person], getTotalPages(person));
       render();
-      saveData();
+      saveData([person]);
     }
 
     function render() {
